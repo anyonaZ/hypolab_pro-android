@@ -17,7 +17,7 @@ __pycache__/
 .pytest_cache/
 
 # Personal research state — never commit (see docs/ANDROID.md)
-data/
+/data/
 *.db
 *.db-wal
 *.db-shm
@@ -25,6 +25,6 @@ session.pkl
 ace.log
 update_token.txt
 support_token.txt
-secrets/
+/secrets/
 
 .DS_Store

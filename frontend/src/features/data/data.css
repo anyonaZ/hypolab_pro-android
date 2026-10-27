@@ -1,0 +1,112 @@
+.dx { display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; }
+
+.dx-ctx { padding: 12px 14px; }
+.dx-ctx-row { display: grid; grid-template-columns: repeat(5,minmax(105px,1fr)) auto; gap: 10px; align-items: end; }
+.dx-fetch-datasets { justify-self: end; white-space: nowrap; }
+
+/* minmax(0,1fr) is the key: without it the grid row sizes to CONTENT, so a tall panel
+   overflows the screen instead of scrolling inside. This constrains every dx-split panel
+   to the row height and lets its own overflow (or a .panel-scroll child) scroll. */
+.dx-split { display: grid; grid-template-columns: 1fr 1fr; grid-auto-rows: minmax(0, 1fr); gap: 12px; flex: 1; min-height: 0; }
+.dx-panel { padding: 12px 14px; min-height: 0; }
+
+.dx-head { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.dx-head b { font-size: 13.5px; letter-spacing: .2px; }
+.dx-head > .mut { font-size: 11.5px; }
+
+.dx-filters { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.dx-filters.wrap { flex-wrap: wrap; }
+.inline-score{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 5px 0 10px;border:1px solid var(--line);border-radius:6px;background:color-mix(in srgb,var(--surface-2) 88%,transparent);white-space:nowrap;color:var(--mut);font-size:10.5px}
+.inline-score input{width:58px;height:24px!important;padding:2px 6px!important;border:0!important;border-left:1px solid var(--line)!important;border-radius:0!important;background:transparent!important;color:var(--fg);font-variant-numeric:tabular-nums}
+.dx-field-filterbar select { width: 152px; flex: 0 0 152px; }
+.virgin-filter{margin-left:auto;white-space:nowrap}.virgin-filter.active{border-color:var(--ok);color:var(--ok);background:var(--ok-weak)}
+
+.sub { font-size: 11px; color: var(--mut); }
+
+/* uppercase section divider label used inside longer panels (Simulation sweeps, etc.) */
+.section {
+  font-size: 10px; text-transform: uppercase; letter-spacing: .6px; font-weight: 600;
+  color: var(--mut-2); margin: 14px 0 6px; padding-top: 10px; border-top: 1px solid var(--line);
+}
+
+.badge.vec { background: #5b76c422; color: #8ea3d6; }
+.badge.mat { background: var(--acc-weak); color: var(--acc); }
+.badge.virgin { background: var(--ok-weak); color: var(--ok); margin-left: 5px; }
+
+.dx td code { font-size: 11.5px; }
+
+/* tiny category tag next to a dataset id */
+.cat-tag {
+  display: inline-block; margin-left: 6px; padding: 1px 7px;
+  font-size: 10px; line-height: 16px; border-radius: 6px; font-weight: 600;
+  background: var(--acc-weak); color: var(--acc);
+  text-transform: uppercase; letter-spacing: .4px; vertical-align: 1px; white-space: nowrap;
+}
+
+/* post-selection "what next" guidance banner */
+.dx-next {
+  flex: none; display: flex; align-items: center; gap: 14px;
+  padding: 10px 14px; border-color: var(--acc-line);
+  background: linear-gradient(90deg, var(--acc-weak), transparent 70%);
+}
+.dx-next-lead { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.dx-next-lead b { font-size: 13px; color: var(--acc); }
+.dx-next-lead .mut { font-size: 11.5px; }
+.dx-next-actions { display: flex; gap: 8px; margin-left: auto; flex-wrap: wrap; }
+
+.evo-shell { display:grid; grid-template-columns:minmax(410px,.78fr) minmax(520px,1.22fr); gap:12px; flex:1; min-height:0; }
+.evo-setup,.evo-results { padding:14px; min-height:0; overflow:hidden; }
+.evo-setup { display:flex; flex-direction:column; gap:9px; }
+.evo-setup textarea { min-height:72px; max-height:105px; resize:none; }
+.evo-inline,.evo-tags,.evo-run,.evo-metrics { display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.evo-inline .mut { margin-left:auto; }
+.evo-choice { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; }
+.evo-choice>b { grid-column:1/-1; font-size:11px; }
+.evo-option { text-align:left; padding:8px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); border-radius:8px; cursor:pointer; }
+.evo-option strong,.evo-option small { display:block; }
+.evo-option small { color:var(--mut); margin-top:2px; line-height:1.25; }
+.evo-option.on { border-color:var(--acc); background:var(--acc-weak); }
+.evo-advanced { padding:9px; border:1px solid var(--line); border-radius:8px; background:var(--surface-2); }
+.evo-tags { margin-top:7px; }.evo-tags>b { min-width:90px; font-size:11px; }
+.evo-preview { display:flex; flex-direction:column; gap:2px; padding:8px 10px; border:1px solid var(--line); border-radius:8px; font-size:11px; }
+.evo-preview.ok { border-color:var(--ok); }.evo-preview.bad { border-color:var(--bad); }
+.evo-run { margin-top:auto; border-top:1px solid var(--line); padding-top:9px; }.evo-run .btn:nth-child(2){flex:1;}
+.evo-results { display:flex; flex-direction:column; }.evo-results>.panel-scroll { flex:1; }
+.evo-progress>div { height:7px; border-radius:8px; background:var(--surface-2); overflow:hidden; }.evo-progress>div span { display:block; height:100%; background:var(--acc); }
+.evo-survivor { padding:10px; border:1px solid var(--line); border-radius:8px; margin-bottom:8px; background:var(--surface-2); }
+.evo-survivor>div:first-child { display:flex;gap:6px;align-items:center; }.evo-survivor code { display:block; margin:7px 0; word-break:break-all; }.evo-metrics span { font-size:11px; color:var(--mut); }
+.evo-row { display:grid; grid-template-columns:28px minmax(0,1fr); gap:3px 7px; padding:7px 2px; border-bottom:1px solid var(--line); }.evo-row code { word-break:break-all; }.evo-row .mut { grid-column:2; font-size:10px; }
+.evo-search { width:100%; margin:8px 0 4px; }
+.evo-history { display:flex;align-items:center;gap:6px;padding:6px 0;border-bottom:1px solid var(--line);}.evo-history span{margin-right:auto;font-size:11px;}
+@media(max-width:1050px){.evo-shell{grid-template-columns:1fr}.evo-setup{overflow:auto}}
+
+/* Evolution Lab uses a flat research workspace: hierarchy comes from spacing and rules, not cards. */
+.evolution-workspace{display:flex;flex-direction:column;min-height:0;flex:1;margin:-2px 0 0;background:var(--bg)}
+.evolution-title{display:flex;justify-content:space-between;align-items:center;padding:10px 18px 12px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--acc-weak),transparent 48%)}
+.evolution-title h1{font-size:20px;margin:2px 0}.evolution-title p{margin:0;color:var(--mut);font-size:11.5px}.eyebrow{font-size:9px;color:var(--acc);letter-spacing:1.2px;font-weight:800}
+.evolution-context{display:flex;align-items:center;gap:10px;font-size:11px}.evolution-context>span:not(.badge){color:var(--mut)}
+.evolution-grid{display:grid;grid-template-columns:minmax(430px,36%) minmax(0,64%);flex:1;min-height:0}
+.evolution-controls{display:flex;flex-direction:column;min-height:0;overflow:auto;border-right:1px solid var(--line);padding:0 16px}
+.evolution-controls>section{padding:11px 0;border-bottom:1px solid var(--line)}.section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;font-size:11px}.section-title>span{color:var(--mut);font-size:10px}
+.evolution-controls textarea{width:100%;min-height:58px;max-height:84px;resize:vertical}.source-links{display:flex;gap:12px;margin-top:5px}.source-links .text-action:last-child{margin-left:auto}
+.text-action{border:0;background:transparent;color:var(--acc);padding:2px 0;cursor:pointer;font-size:10.5px}.text-action:hover{text-decoration:underline}
+.catalog-source{display:flex;align-items:center;gap:8px;min-width:0;white-space:nowrap}.catalog-source b{overflow:hidden;text-overflow:ellipsis;font-size:10px;color:var(--mut)}.catalog-source.ready b{color:var(--ok)}.catalog-open-btn{display:inline-flex;align-items:center;gap:7px;height:30px;padding:0 11px;border:1px solid color-mix(in srgb,var(--acc) 60%,var(--line));border-radius:7px;background:var(--acc-weak);color:var(--acc);font-weight:700;font-size:10px;cursor:pointer;white-space:nowrap}.catalog-open-btn:hover{background:var(--acc);color:var(--acc-text)}.catalog-open-btn span{font-size:14px;line-height:1}
+.scope-list{display:grid;grid-template-columns:1fr 1fr;gap:5px}.scope-list>button{display:flex;text-align:left;gap:7px;padding:7px;background:transparent;color:var(--text);border:1px solid transparent;border-radius:6px;cursor:pointer}.scope-list>button:hover{background:var(--surface-2)}.scope-list>button.active{border-color:var(--acc-line);background:var(--acc-weak)}.scope-list i{width:8px;height:8px;margin-top:3px;border-radius:50%;border:1px solid var(--mut)}.scope-list .active i{border:3px solid var(--acc)}.scope-list span,.scope-list b,.scope-list small{display:block}.scope-list b{font-size:11px}.scope-list small{font-size:9.5px;line-height:1.25;color:var(--mut);margin-top:2px}
+.method-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}.method-grid button{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:transparent;color:var(--mut);padding:6px 8px;border-radius:6px;cursor:pointer;text-align:left}.method-grid button span{display:grid;place-items:center;width:15px;height:15px;border:1px solid var(--line);border-radius:4px}.method-grid button b{font-size:10.5px}.method-grid button.active{color:var(--text);border-color:var(--acc-line);background:var(--acc-weak)}.method-grid button.active span{background:var(--acc);color:#111;border-color:var(--acc)}
+.run-design>div:first-child,.advanced-flat>div{display:grid;grid-template-columns:1fr 1fr;gap:7px}.run-design label,.advanced-flat label{display:flex;flex-direction:column;gap:3px;font-size:10px;color:var(--mut)}.run-design select,.run-design input{width:100%}.advanced-flat{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}.advanced-flat>label textarea{min-height:48px}.advanced-flat>div{grid-template-columns:repeat(3,1fr);margin-top:6px}
+.choice-line{display:flex!important;flex-wrap:wrap;align-items:center;gap:4px}.choice-line>b{min-width:78px;font-size:10px}.choice-line button,.ledger-tools button,.survivor-strip button{border:1px solid var(--line);background:transparent;color:var(--mut);padding:4px 7px;border-radius:999px;font-size:9.5px;cursor:pointer}.choice-line button.on,.ledger-tools button.on,.survivor-strip button.on{border-color:var(--acc);background:var(--acc-weak);color:var(--acc)}
+.cost-readout{display:flex;flex-direction:column;gap:3px;font-size:10px}.cost-readout span{color:var(--mut)}.cost-readout strong{color:var(--acc);margin-top:2px}.cost-readout em{color:var(--bad);font-style:normal}
+.evolution-run{display:flex;gap:7px;position:sticky;bottom:0;background:var(--bg);padding:10px 0;border-top:1px solid var(--line);margin-top:auto}.evolution-run .btn:nth-child(2){flex:1}
+.evolution-output{display:flex;flex-direction:column;min-width:0;min-height:0;padding:0 16px}.output-toolbar{display:flex;gap:12px;align-items:center;min-height:53px;border-bottom:1px solid var(--line)}.output-toolbar>div:first-child{display:flex;flex-direction:column}.output-toolbar>div:first-child span{font-size:10px;color:var(--mut)}.output-toolbar>.btn{margin-left:auto}.run-progress{height:4px!important;flex:1;background:var(--surface-2);overflow:hidden}.run-progress span{height:100%;display:block;background:var(--acc)}
+.survivor-strip{display:flex;align-items:center;gap:5px;min-height:43px;border-bottom:1px solid var(--line);overflow-x:auto}.survivor-strip>b{font-size:10px;white-space:nowrap;margin-right:5px}
+.ledger-tools{display:flex;align-items:center;gap:10px;padding:8px 0}.ledger-tools input{flex:1}.ledger-tools>div{display:flex;gap:4px}
+.expression-ledger{flex:1;min-height:0;overflow:auto;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}.ledger-head,.expression-ledger article{display:grid;grid-template-columns:30px minmax(330px,1fr) 82px 60px 60px 70px 60px;gap:8px;align-items:center}.ledger-head{position:sticky;top:0;z-index:2;background:var(--bg);padding:7px 8px;color:var(--mut);font-size:9px;text-transform:uppercase;letter-spacing:.4px;border-bottom:1px solid var(--line)}.expression-ledger article{padding:8px;border-bottom:1px solid var(--line);font-size:10.5px}.expression-ledger article:hover{background:var(--surface-2)}.expression-ledger article.survived{box-shadow:inset 2px 0 var(--ok);background:var(--ok-weak)}.expression-ledger article>div{min-width:0}.expression-ledger code,.expression-ledger small{display:block;white-space:normal;overflow-wrap:anywhere}.expression-ledger code{color:var(--text);font-size:10.5px}.expression-ledger small{color:var(--mut);font-size:9px;margin-top:2px}.expression-ledger .hash{opacity:.7}.stage-mark{color:var(--acc);font-size:9px;text-transform:uppercase}.ledger-empty{display:grid;place-items:center;height:100%;min-height:220px;color:var(--mut);font-size:11px}
+.run-history{display:flex;align-items:center;gap:10px;min-height:42px;overflow-x:auto}.run-history>b{font-size:10px;white-space:nowrap}.run-history>div{display:flex;align-items:center;gap:7px;border-left:1px solid var(--line);padding-left:9px;white-space:nowrap;font-size:9.5px;color:var(--mut)}
+.field-mode{width:100%;margin-bottom:6px}.field-mode button{flex:1}.single-field-note{display:grid;padding:6px 8px;border-left:2px solid var(--acc);background:var(--faint)}.single-field-note b{font-size:10px}.single-field-note small{font-size:9px;color:var(--mut)}
+@media(max-width:1150px){.evolution-grid{grid-template-columns:400px minmax(0,1fr)}.ledger-head,.expression-ledger article{grid-template-columns:26px minmax(280px,1fr) 70px 54px 54px}.ledger-head span:nth-last-child(-n+2),.expression-ledger article>span:nth-last-child(-n+2){display:none}}
+.field-comparison{border-top:1px solid var(--line);padding:10px 0;display:grid;gap:6px;max-height:190px;overflow:auto}
+.field-comparison>div{display:grid;grid-template-columns:minmax(170px,.7fr) 1fr 1.5fr;gap:10px;align-items:start;padding:5px 2px;border-bottom:1px solid var(--line)}
+.field-comparison small{color:var(--mut);white-space:normal}
+
+/* Keep dense Explorer toolbars inside their own half of the workspace. */
+.data-page>.dx-split,.data-page .dx-panel{min-width:0;overflow:hidden}.data-page .dx-head,.data-page .dx-filters{min-width:0;flex-wrap:wrap}.data-page .dx-head>input{min-width:150px;flex:1 1 180px}.data-page .dx-field-filterbar{display:grid;grid-template-columns:minmax(150px,1fr) repeat(3,minmax(112px,150px)) repeat(2,minmax(105px,140px));align-items:center;width:100%;overflow:hidden}.data-page .dx-field-filterbar select{width:100%;min-width:0;flex:auto}.data-page .dx-field-filterbar .inline-score{min-width:0}.data-page .dx-field-filterbar .inline-score input{min-width:0;width:52px}.data-page .dx-panel .btn{white-space:nowrap}@media(max-width:1350px){.data-page .dx-field-filterbar{grid-template-columns:minmax(150px,1fr) repeat(2,minmax(110px,1fr));}.data-page .dx-field-filterbar>*{min-width:0}}
