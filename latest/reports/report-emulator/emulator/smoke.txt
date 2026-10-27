@@ -1,0 +1,17 @@
+[smoke] device: 16 / sdk 36 / x86_64
+[smoke] apk: -rw-r--r-- 1 runner runner 79800388 Oct 27 20:14 apk/HypoLab-1.0.6-x86_64-emulator.apk
+[smoke] installed
+Starting: Intent { cmp=com.hypolab.app/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.hypolab.app/.MainActivity
+TotalTime: 9860
+WaitTime: 9947
+Complete
+[smoke] engine answered after 24s: {"app":"HypoLab","version":"1.0.6","modules":["health","meta","session","data","catalog","knowledge","research","generate","simulate","evolve","analytics","account","insights","super","settings","strategy","operators","regions","update","support"]}
+[smoke] modules mounted: 20
+[smoke] token gate (no token) -> HTTP 403
+{"ok":true,"app":"HypoLab","version":"1.0.6","uptime_seconds":11.2}
+    topResumedActivity=ActivityRecord{240353913 u0 com.hypolab.app/.MainActivity t7}
+2196
+[smoke] smoke status: 0

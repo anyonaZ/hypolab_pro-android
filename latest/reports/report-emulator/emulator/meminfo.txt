@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 125942 Realtime: 125942
+
+** MEMINFO in pid 2196 [com.hypolab.app] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    62798    62732        0        0    66528    77912    71461     2091
+  Dalvik Heap     2873     2708        0        0    10468     6478     3239     3239
+ Dalvik Other     1641     1616        0        0     2416                           
+        Stack     1268     1268        0        0     1276                           
+       Ashmem      356       40        0        0     1264                           
+    Other dev       15        0       12        0      264                           
+     .so mmap    30169    19428     8168        0    70120                           
+    .jar mmap     1781        0        0        0    40424                           
+    .apk mmap    84264     1708    63620        0   115048                           
+    .ttf mmap       93        0        0        0      600                           
+    .dex mmap     5568        0     5532        0     6588                           
+    .oat mmap      616        0        0        0    12692                           
+    .art mmap     1683     1028        0        0    32052                           
+   Other mmap     2366      300      708        0     5340                           
+      Unknown    80170    80164        0        0    81084                           
+        TOTAL   275661   170992    78040        0   446164    84390    74700     5330
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:     3736                          42520
+         Native Heap:    62732                          66528
+                Code:    98456                         245496

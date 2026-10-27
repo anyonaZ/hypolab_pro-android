@@ -1,0 +1,5 @@
+total 152500
+drwxr-xr-x  2 runner runner     4096 Oct 27 20:13 .
+drwxr-xr-x 10 runner runner     4096 Oct 27 20:10 ..
+-rw-r--r--  1 runner runner 76341888 Oct 27 20:12 HypoLab-1.0.6-arm64.apk
+-rw-r--r--  1 runner runner 79800388 Oct 27 20:13 HypoLab-1.0.6-x86_64-emulator.apk

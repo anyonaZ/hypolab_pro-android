@@ -1,3 +1,80 @@
-="utf-8"?><Error><Code>BlobNotFound</Code><Message>The specified blob does not exist.
-164f-6650e9000000
-250Z</Message></Error>
+ Current runner version: '2.338.0'
+##[group]Runner Image Provisioner
+Hosted Compute Agent
+Version: 20261021.618
+Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Build Date: 2026-10-21T00:45:21Z
+Worker ID: {9a9467e8-cad3-43ba-b73e-7e5a013b4e74}
+Region: eastus
+Cloud: Azure
+##[endgroup]
+##[group]Operating System
+Ubuntu
+26.04.1
+LTS
+##[endgroup]
+##[group]Runner Image
+Image: ubuntu-26.04
+Version: 20261012.163.1
+Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261012.163/images/ubuntu/Ubuntu2604-Readme.md
+Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261012.163
+##[endgroup]
+##[group]GITHUB_TOKEN Permissions
+Actions: read
+Contents: write
+Metadata: read
+##[endgroup]
+Secret source: Actions
+Cache mode: write
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+Complete job name: Publish release
+##[group]Run actions/download-artifact@v4
+with:
+  name: apk-arm64
+  path: dist
+  merge-multiple: false
+  repository: anyonaZ/hypolab_pro-android
+  run-id: 40575446275
+env:
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+Downloading single artifact
+(node:2040) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Preparing to download the following artifacts:
+- apk-arm64 (ID: 12766832884, Size: 65526262, Expected Digest: sha256:3e2ec54f34aa249999109123999ce8afc4a08cab4f9a9a9882ace7d3746194cc)
+Redirecting to blob download url: https://productionresultssa2.blob.core.windows.net/actions-results/6e9e4df6-2291-83cf-b9c9-a608c7fcab1e/workflow-job-run-d01cfabf-2c1c-5769-8084-2a37fc6e4a16/artifacts/f0a1099f1af491efcba6769f3f705ea43b7dab668b2ac152aa67ee42099cd532.zip
+Starting download of artifact to: /home/runner/work/hypolab_pro-android/hypolab_pro-android/dist
+(node:2040) [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+SHA256 digest of downloaded artifact is 3e2ec54f34aa249999109123999ce8afc4a08cab4f9a9a9882ace7d3746194cc
+Artifact download completed successfully.
+Total of 1 artifact(s) downloaded
+Download artifact has finished successfully
+##[group]Run set -eu
+[36;1mset -eu[0m
+[36;1mcat > notes.md <<EOF[0m
+[36;1mHypoLab ${VERSION} for Android (arm64 — Samsung Galaxy Tab A9 and other 64-bit ARM devices, Android 8+).[0m
+[36;1m[0m
+[36;1mInstall: download **HypoLab-${VERSION}-arm64.apk** on the tablet, open it, and allow installs from your browser/files app if asked.[0m
+[36;1mUpdating: install the new APK over the old one; your data is kept.[0m
+[36;1m[0m
+[36;1mBuilt from ${GITHUB_SHA}. Boot-tested on an Android 16 emulator.[0m
+[36;1mEOF[0m
+[36;1mgh release create "v${VERSION}" dist/*.apk --repo "$GITHUB_REPOSITORY" \[0m
+[36;1m  --target "$GITHUB_SHA" --title "HypoLab ${VERSION}" --notes-file notes.md --latest[0m
+shell: /usr/bin/bash -e {0}
+env:
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+  GH_TOKEN: ***
+  VERSION: 1.0.6
+##[endgroup]
+https://github.com/anyonaZ/hypolab_pro-android/releases/tag/v1.0.6
+Cleaning up orphan processes
+##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/download-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -8,4 +8,4 @@ SKIPPED [1] tests/test_evolution.py:98: needs the BRAIN operator reference (cach
 SKIPPED [1] tests/test_evolution.py:110: needs the BRAIN operator reference (cached after login)
 SKIPPED [1] tests/test_template_vectors.py:3: needs the BRAIN operator reference (cached after login)
 SKIPPED [1] tests/test_template_vectors.py:17: needs the BRAIN operator reference (cached after login)
-21 passed, 8 skipped in 2.34s
+21 passed, 8 skipped in 1.99s
