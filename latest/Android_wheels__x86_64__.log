@@ -4,8 +4,8 @@ Hosted Compute Agent
 Version: 20261021.618
 Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
 Build Date: 2026-10-21T00:45:21Z
-Worker ID: {b340a3db-73af-46d8-962b-2e72507db060}
-Region: westus3
+Worker ID: {d3ad2a48-ca6a-4a92-8bdd-8ea6a0c2e8b9}
+Region: westus
 Cloud: Azure
 ##[endgroup]
 ##[group]Operating System
@@ -61,7 +61,7 @@ Working directory is '/home/runner/work/hypolab_pro-android/hypolab_pro-android'
 [command]/usr/bin/git version
 git version 2.55.0
 ##[endgroup]
-Temporarily overriding HOME='/home/runner/work/_temp/a2ff55c2-7f80-478e-af2d-14755a1d2f6f' before making global git config changes
+Temporarily overriding HOME='/home/runner/work/_temp/6ee02dae-ef17-4c77-81da-b0dc09618386' before making global git config changes
 Adding repository directory to the temporary git global config as a safe directory
 [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hypolab_pro-android/hypolab_pro-android
 Deleting the contents of '/home/runner/work/hypolab_pro-android/hypolab_pro-android'
@@ -96,9 +96,9 @@ Initialized empty Git repository in /home/runner/work/hypolab_pro-android/hypola
 [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
 ##[endgroup]
 ##[group]Fetching the repository
-[command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2b349304f0014e48c1bfe770c3365716c07ce6e3:refs/remotes/origin/main
+[command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +bd80dca463b28ca1eced17616698405649eaa6b2:refs/remotes/origin/main
 From https://github.com/anyonaZ/hypolab_pro-android
- * [new ref]         2b349304f0014e48c1bfe770c3365716c07ce6e3 -> origin/main
+ * [new ref]         bd80dca463b28ca1eced17616698405649eaa6b2 -> origin/main
 ##[endgroup]
 ##[group]Determining the checkout info
 ##[endgroup]
@@ -110,7 +110,7 @@ Switched to a new branch 'main'
 branch 'main' set up to track 'origin/main'.
 ##[endgroup]
 [command]/usr/bin/git log -1 --format=%H
-2b349304f0014e48c1bfe770c3365716c07ce6e3
+bd80dca463b28ca1eced17616698405649eaa6b2
 ##[group]Run actions/cache@v4
 with:
   path: wheelhouse
@@ -124,13 +124,13 @@ env:
   JITER_VERSION: 0.17.0
   CIBUILDWHEEL_VERSION: 4.3.4
 ##[endgroup]
-(node:2154) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:2132) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Cache hit for: wheels-x86_64-cp313-pc2.46.5-j0.17.0-cibw4.3.4-v1
-(node:2154) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
-Received 2373497 of 2373497 (100.0%), 4.2 MBs/sec
+(node:2132) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Received 2373497 of 2373497 (100.0%), 3.4 MBs/sec
 Cache Size: ~2 MB (2373497 B)
-[command]/usr/bin/tar -xf /home/runner/work/_temp/a4e479de-ab4b-4f01-af18-66d3c338a106/cache.tzst -P -C /home/runner/work/hypolab_pro-android/hypolab_pro-android --use-compress-program unzstd
+[command]/usr/bin/tar -xf /home/runner/work/_temp/0f94651e-0688-4039-b1b0-486feae1769f/cache.tzst -P -C /home/runner/work/hypolab_pro-android/hypolab_pro-android --use-compress-program unzstd
 Cache restored successfully
 Cache restored from key: wheels-x86_64-cp313-pc2.46.5-j0.17.0-cibw4.3.4-v1
 ##[group]Run ls -la wheelhouse
@@ -143,7 +143,7 @@ env:
 ##[endgroup]
 total 2328
 drwxr-xr-x 2 runner runner    4096 Oct 27 18:15 .
-drwxr-xr-x 9 runner runner    4096 Oct 27 18:58 ..
+drwxr-xr-x 9 runner runner    4096 Oct 27 20:08 ..
 -rw-r--r-- 1 runner runner  313931 Oct 27 18:13 jiter-0.17.0-cp313-cp313-android_24_x86_64.whl
 -rw-r--r-- 1 runner runner 2058597 Oct 27 18:15 pydantic_core-2.46.5-cp313-cp313-android_24_x86_64.whl
 ##[group]Run actions/upload-artifact@v4
@@ -159,28 +159,28 @@ env:
   JITER_VERSION: 0.17.0
   CIBUILDWHEEL_VERSION: 4.3.4
 ##[endgroup]
-(node:2173) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:2152) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 With the provided path, there will be 2 files uploaded
 Artifact name is valid!
 Root directory input is valid!
 Beginning upload of artifact content to blob storage
-(node:2173) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(node:2152) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
 Uploaded bytes 2364164
 Finished uploading artifact content to blob storage!
 SHA256 digest of uploaded artifact zip is 124e2d75d2c886cbcff493f96b001240065ef940a45c4f6412117397f7c59177
 Finalizing artifact upload
-Artifact wheels-x86_64.zip successfully finalized. Artifact ID 12762223608
-Artifact wheels-x86_64 has been successfully uploaded! Final size is 2364164 bytes. Artifact ID is 12762223608
-Artifact download URL: https://github.com/anyonaZ/hypolab_pro-android/actions/runs/40564806570/artifacts/12762223608
+Artifact wheels-x86_64.zip successfully finalized. Artifact ID 12767198585
+Artifact wheels-x86_64 has been successfully uploaded! Final size is 2364164 bytes. Artifact ID is 12767198585
+Artifact download URL: https://github.com/anyonaZ/hypolab_pro-android/actions/runs/40575405106/artifacts/12767198585
 Post job cleanup.
 Cache hit occurred on the primary key wheels-x86_64-cp313-pc2.46.5-j0.17.0-cibw4.3.4-v1, not saving cache.
-(node:2186) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:2199) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Post job cleanup.
 [command]/usr/bin/git version
 git version 2.55.0
-Temporarily overriding HOME='/home/runner/work/_temp/08f73e0a-d962-4374-a8b3-255336294b59' before making global git config changes
+Temporarily overriding HOME='/home/runner/work/_temp/512a7b9e-e4c2-465a-b535-02cece44cc8b' before making global git config changes
 Adding repository directory to the temporary git global config as a safe directory
 [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hypolab_pro-android/hypolab_pro-android
 [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand

@@ -1,6 +1,6 @@
-122403114069	Backend tests
-122403114162	Android wheels (arm64_v8a)
-122403114254	Android wheels (x86_64)
-122403250932	Build APK
-122406700535	Emulator smoke test (Android 16)
-122409034393	Publish release
+122440381359	Android wheels (arm64_v8a)
+122440381685	Android wheels (x86_64)
+122440381830	Backend tests
+122440506558	Build APK
+122440534109	Emulator smoke test (Android 16)
+122440745352	Publish release

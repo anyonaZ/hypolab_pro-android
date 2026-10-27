@@ -4,8 +4,8 @@ Hosted Compute Agent
 Version: 20261021.618
 Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
 Build Date: 2026-10-21T00:45:21Z
-Worker ID: {a2b2c7a4-b749-41dc-aff1-a672e1f583c6}
-Region: centralus
+Worker ID: {027bc15c-8fda-4eb4-afb6-76eefc07da30}
+Region: northcentralus
 Cloud: Azure
 ##[endgroup]
 ##[group]Operating System
@@ -60,7 +60,7 @@ Working directory is '/home/runner/work/hypolab_pro-android/hypolab_pro-android'
 [command]/usr/bin/git version
 git version 2.55.0
 ##[endgroup]
-Temporarily overriding HOME='/home/runner/work/_temp/28d4c230-dc7f-4aaa-98a2-b8916a92ae2c' before making global git config changes
+Temporarily overriding HOME='/home/runner/work/_temp/bc13f92a-3bd9-40ab-8496-1a3be0e1df94' before making global git config changes
 Adding repository directory to the temporary git global config as a safe directory
 [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hypolab_pro-android/hypolab_pro-android
 Deleting the contents of '/home/runner/work/hypolab_pro-android/hypolab_pro-android'
@@ -95,9 +95,9 @@ Initialized empty Git repository in /home/runner/work/hypolab_pro-android/hypola
 [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
 ##[endgroup]
 ##[group]Fetching the repository
-[command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2b349304f0014e48c1bfe770c3365716c07ce6e3:refs/remotes/origin/main
+[command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +bd80dca463b28ca1eced17616698405649eaa6b2:refs/remotes/origin/main
 From https://github.com/anyonaZ/hypolab_pro-android
- * [new ref]         2b349304f0014e48c1bfe770c3365716c07ce6e3 -> origin/main
+ * [new ref]         bd80dca463b28ca1eced17616698405649eaa6b2 -> origin/main
 ##[endgroup]
 ##[group]Determining the checkout info
 ##[endgroup]
@@ -109,7 +109,7 @@ Switched to a new branch 'main'
 branch 'main' set up to track 'origin/main'.
 ##[endgroup]
 [command]/usr/bin/git log -1 --format=%H
-2b349304f0014e48c1bfe770c3365716c07ce6e3
+bd80dca463b28ca1eced17616698405649eaa6b2
 ##[group]Run actions/setup-python@v5
 with:
   python-version: 3.12
@@ -124,7 +124,7 @@ env:
   CIBUILDWHEEL_VERSION: 4.3.4
 ##[endgroup]
 ##[group]Installed versions
-(node:2057) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:2151) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Successfully set up CPython (3.12.15)
 ##[endgroup]
@@ -258,20 +258,20 @@ Collecting pycparser (from cffi>=1.12->cryptography==42.0.8->-r /tmp/req.txt (li
 Collecting pyasn1<0.7.0,>=0.6.1 (from pyasn1-modules>=0.2.1->google-auth==2.59.1->-r /tmp/req.txt (line 22))
   Downloading pyasn1-0.6.5-py3-none-any.whl.metadata (8.4 kB)
 Downloading numpy-1.26.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (17.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.9/17.9 MB 64.4 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 17.9/17.9 MB 227.4 MB/s  0:00:00
 Downloading pandas-2.1.3-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.7 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.7/11.7 MB 68.0 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 11.7/11.7 MB 282.2 MB/s  0:00:00
 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
 Downloading fastapi-0.142.2-py3-none-any.whl (144 kB)
 Downloading starlette-1.7.0-py3-none-any.whl (78 kB)
 Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
 Downloading pydantic-2.13.5-py3-none-any.whl (472 kB)
 Downloading pydantic_core-2.46.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 113.6 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 263.7 MB/s  0:00:00
 Downloading pydantic_settings-2.15.0-py3-none-any.whl (69 kB)
 Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
 Downloading sqlalchemy-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (4.7 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 74.0 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 282.9 MB/s  0:00:00
 Downloading requests-2.34.2-py3-none-any.whl (73 kB)
 Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
 Downloading python_multipart-0.0.32-py3-none-any.whl (30 kB)
@@ -280,14 +280,14 @@ Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
 Downloading markupsafe-3.0.4-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
 Downloading jiter-0.17.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (345 kB)
 Downloading openai-3.22.1-py3-none-any.whl (2.1 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 86.3 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 255.1 MB/s  0:00:00
 Downloading anthropic-1.11.0-py3-none-any.whl (1.7 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 122.6 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.7/1.7 MB 219.3 MB/s  0:00:00
 Downloading google_genai-2.26.0-py3-none-any.whl (1.2 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 86.9 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 199.2 MB/s  0:00:00
 Downloading google_auth-2.59.1-py3-none-any.whl (263 kB)
 Downloading cryptography-42.0.8-cp39-abi3-manylinux_2_28_x86_64.whl (3.9 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.9/3.9 MB 84.3 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.9/3.9 MB 260.8 MB/s  0:00:00
 Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
 Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
 Downloading charset_normalizer-3.5.2-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (257 kB)
@@ -316,7 +316,7 @@ Downloading packaging-26.3-py3-none-any.whl (129 kB)
 Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
 Downloading pyasn1-0.6.5-py3-none-any.whl (84 kB)
 Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
-   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 109.2 MB/s  0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 220.5 MB/s  0:00:00
 Downloading pytz-2026.5-py2.py3-none-any.whl (506 kB)
 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
 Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
@@ -356,7 +356,7 @@ SKIPPED [1] tests/test_evolution.py:98: needs the BRAIN operator reference (cach
 SKIPPED [1] tests/test_evolution.py:110: needs the BRAIN operator reference (cached after login)
 SKIPPED [1] tests/test_template_vectors.py:3: needs the BRAIN operator reference (cached after login)
 SKIPPED [1] tests/test_template_vectors.py:17: needs the BRAIN operator reference (cached after login)
-21 passed, 8 skipped in 1.81s
+21 passed, 8 skipped in 2.34s
 ##[group]Run actions/upload-artifact@v4
 with:
   name: report-backend-tests
@@ -376,27 +376,27 @@ env:
   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.15/x64
   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.15/x64/lib
 ##[endgroup]
-(node:2105) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:2281) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 With the provided path, there will be 1 file uploaded
 Artifact name is valid!
 Root directory input is valid!
 Beginning upload of artifact content to blob storage
-(node:2105) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
-Uploaded bytes 360
+(node:2281) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Uploaded bytes 361
 Finished uploading artifact content to blob storage!
-SHA256 digest of uploaded artifact zip is 01d811a7ee3c4b6a1ff5fbe4be1d3e46aadcd83d285cb0c204ece439bb2e8832
+SHA256 digest of uploaded artifact zip is 8e5b92083aba9448427663d0c2b936f29c28a43802f3a5e74ccf2b3d2d926576
 Finalizing artifact upload
-Artifact report-backend-tests.zip successfully finalized. Artifact ID 12763130458
-Artifact report-backend-tests has been successfully uploaded! Final size is 360 bytes. Artifact ID is 12763130458
-Artifact download URL: https://github.com/anyonaZ/hypolab_pro-android/actions/runs/40564806570/artifacts/12763130458
+Artifact report-backend-tests.zip successfully finalized. Artifact ID 12766732407
+Artifact report-backend-tests has been successfully uploaded! Final size is 361 bytes. Artifact ID is 12766732407
+Artifact download URL: https://github.com/anyonaZ/hypolab_pro-android/actions/runs/40575405106/artifacts/12766732407
 Post job cleanup.
-(node:2119) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(node:2295) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Post job cleanup.
 [command]/usr/bin/git version
 git version 2.55.0
-Temporarily overriding HOME='/home/runner/work/_temp/de6a4cb6-64ff-4b4e-84ee-4608e887c142' before making global git config changes
+Temporarily overriding HOME='/home/runner/work/_temp/d443aa32-7415-4fbd-8538-14c227e31802' before making global git config changes
 Adding repository directory to the temporary git global config as a safe directory
 [command]/usr/bin/git config --global --add safe.directory /home/runner/work/hypolab_pro-android/hypolab_pro-android
 [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
