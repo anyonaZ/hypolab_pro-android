@@ -1,0 +1,145 @@
+name: HypoLab Android build
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHON_VERSION: "3.13"
+  PYDANTIC_CORE_VERSION: "2.46.5"
+  JITER_VERSION: "0.17.0"
+  CIBUILDWHEEL_VERSION: "4.3.4"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Native Python packages that have no Android wheels on PyPI or in Chaquopy's
+  # repository. Built with cibuildwheel's Android support (CPython 3.13).
+  # ---------------------------------------------------------------------------
+  wheels:
+    name: Android wheels (${{ matrix.arch }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64_v8a, x86_64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Restore wheel cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: wheelhouse
+          key: wheels-${{ matrix.arch }}-cp313-pc${{ env.PYDANTIC_CORE_VERSION }}-j${{ env.JITER_VERSION }}-cibw${{ env.CIBUILDWHEEL_VERSION }}-v1
+
+      - uses: actions/setup-python@v5
+        if: steps.cache.outputs.cache-hit != 'true'
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install Rust Android targets
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: rustup target add aarch64-linux-android x86_64-linux-android
+
+      - name: Download sources
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          python -m pip install "cibuildwheel==${CIBUILDWHEEL_VERSION}"
+          mkdir -p sdists
+          python -m pip download --no-binary=:all: --no-deps --dest sdists \
+            "pydantic-core==${PYDANTIC_CORE_VERSION}" "jiter==${JITER_VERSION}"
+          ls -la sdists
+
+      - name: Build wheels
+        if: steps.cache.outputs.cache-hit != 'true'
+        env:
+          CIBW_PLATFORM: android
+          CIBW_BUILD: cp313-*
+          CIBW_ARCHS_ANDROID: ${{ matrix.arch }}
+          CIBW_TEST_SKIP: "*"
+          CIBW_BUILD_VERBOSITY: 1
+        run: |
+          set -eux
+          for sdist in sdists/*.tar.gz; do
+            python -m cibuildwheel --output-dir wheelhouse "$sdist"
+          done
+          ls -la wheelhouse
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wheels-${{ matrix.arch }}
+          path: wheelhouse/*.whl
+
+  probe:
+    name: Probe Chaquopy package index
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          for p in numpy pandas cryptography cffi; do
+            echo "=== $p"
+            curl -sSL "https://chaquo.com/pypi-13.1/$p/" | grep -oE 'href="[^"]+\.whl' | sed 's/href="//' | grep -E "cp31[234]" || echo "(no cp312-314 wheels)"
+          done
+
+  # ---------------------------------------------------------------------------
+  # Publish this run's job logs to the `ci-logs` branch so they can be read
+  # without access to the Actions UI.
+  # ---------------------------------------------------------------------------
+  logs:
+    name: Publish CI logs
+    if: always()
+    needs: [wheels, probe]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Collect logs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -u
+          mkdir -p out
+          gh api "repos/$REPO/actions/runs/$RUN_ID/jobs?per_page=100" > out/jobs.json
+          python3 - <<'EOF'
+          import json
+          jobs = json.load(open("out/jobs.json"))["jobs"]
+          with open("out/summary.txt", "w") as f:
+              for j in jobs:
+                  f.write(f"{j['name']}: {j['status']} / {j['conclusion']}\n")
+                  for s in j.get("steps", []):
+                      f.write(f"    {s['number']:>2} {s['name']}: {s['conclusion']}\n")
+          with open("out/ids.txt", "w") as f:
+              for j in jobs:
+                  if j["status"] == "completed":
+                      f.write(f"{j['id']}\t{j['name']}\n")
+          EOF
+          while IFS=$'\t' read -r id name; do
+            safe=$(echo "$name" | tr -c 'A-Za-z0-9._-' '_')
+            gh api "repos/$REPO/actions/jobs/$id/logs" > "out/${safe}.log" 2>/dev/null || true
+          done < out/ids.txt
+          cat out/summary.txt
+
+      - name: Push to ci-logs branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -eu
+          git config --global user.name "hypolab-ci"
+          git config --global user.email "hypolab-ci@users.noreply.github.com"
+          git clone --depth 1 --branch ci-logs "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" logs \
+            || { git init logs && git -C logs checkout -b ci-logs && git -C logs remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"; }
+          rm -rf logs/latest && mkdir -p logs/latest
+          cp -r out/. logs/latest/
+          echo "${{ github.sha }} run ${{ github.run_id }} attempt ${{ github.run_attempt }}" > logs/latest/RUN.txt
+          cd logs
+          git add -A
+          git commit -m "CI logs for ${{ github.sha }} (run ${{ github.run_id }})" || true
+          git push origin ci-logs
