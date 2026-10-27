@@ -84,10 +84,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: |
+          mkdir -p probe
           for p in numpy pandas cryptography cffi; do
             echo "=== $p"
-            curl -sSL "https://chaquo.com/pypi-13.1/$p/" | grep -oE 'href="[^"]+\.whl' | sed 's/href="//' | grep -E "cp31[234]" || echo "(no cp312-314 wheels)"
-          done
+            curl -sSL "https://chaquo.com/pypi-13.1/$p/" | grep -oE '[A-Za-z0-9_.-]+\.whl' | sort -u | grep -E "cp31[234]" || echo "(no cp312-314 wheels)"
+          done | tee probe/chaquopy-index.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: report-probe
+          path: probe/
 
   # ---------------------------------------------------------------------------
   # Publish this run's job logs to the `ci-logs` branch so they can be read
@@ -99,6 +104,14 @@ jobs:
     needs: [wheels, probe]
     runs-on: ubuntu-latest
     steps:
+      - name: Download reports
+        uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: report-*
+          path: out/reports
+          merge-multiple: false
+
       - name: Collect logs
         env:
           GH_TOKEN: ${{ github.token }}
@@ -123,7 +136,12 @@ jobs:
           EOF
           while IFS=$'\t' read -r id name; do
             safe=$(echo "$name" | tr -c 'A-Za-z0-9._-' '_')
-            gh api "repos/$REPO/actions/jobs/$id/logs" > "out/${safe}.log" 2>/dev/null || true
+            curl -sSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/$REPO/actions/jobs/$id/logs" -o "out/${safe}.log" || true
+            # keep the committed logs small: drop timestamps, keep the tail
+            if [ -s "out/${safe}.log" ]; then
+              cut -c30- "out/${safe}.log" | tail -n 4000 > "out/${safe}.tmp" && mv "out/${safe}.tmp" "out/${safe}.log"
+            fi
           done < out/ids.txt
           cat out/summary.txt
 
