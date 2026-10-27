@@ -1,0 +1,30 @@
+Applications Memory Usage (in Kilobytes):
+Uptime: 183369 Realtime: 183369
+
+** MEMINFO in pid 2383 [com.hypolab.app] **
+                   Pss  Private  Private     Swap      Rss     Heap     Heap     Heap
+                 Total    Dirty    Clean    Dirty    Total     Size    Alloc     Free
+                ------   ------   ------   ------   ------   ------   ------   ------
+  Native Heap    62252    62188        0        0    66000    78820    71323     2690
+  Dalvik Heap     2859     2704        0        0    10464     6470     3235     3235
+ Dalvik Other     1620     1596        0        0     2392                           
+        Stack     1336     1336        0        0     1344                           
+       Ashmem      357       72        0        0     1236                           
+    Other dev       19        0       16        0      268                           
+     .so mmap    30311    15404    12360        0    70216                           
+    .jar mmap     1876        0        0        0    41168                           
+    .apk mmap    84769     1708    64460        0   115260                           
+    .ttf mmap       89        0        0        0      612                           
+    .dex mmap     5632        0     5596        0     6620                           
+    .oat mmap      603        0        0        0    12804                           
+    .art mmap     1645     1028        0        0    32052                           
+   Other mmap     2305      304      800        0     5292                           
+      Unknown    80862    80856        0        0    81764                           
+        TOTAL   276535   167196    83232        0   447492    85290    74558     5925
+ 
+ App Summary
+                       Pss(KB)                        Rss(KB)
+                        ------                         ------
+           Java Heap:     3732                          42516
+         Native Heap:    62188                          66000
+                Code:    99528                         246704
