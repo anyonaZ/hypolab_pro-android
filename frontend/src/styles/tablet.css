@@ -1,0 +1,119 @@
+/* HypoLab reachability + tablet layer.
+   1. Everywhere: content that does not fit the screen scrolls instead of being cut off.
+   2. html.touch-ui (the Android app / touch tablets): finger-sized controls, pressed states
+      instead of hover, a navigation drawer, and no GPU-heavy blur while scrolling. */
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* ── 1. reachability (all devices) ─────────────────────────────────────────────── */
+/* The workspace still fits the screen when it can; when it can't (short screens, large
+   interface scale), the page scrolls rather than hiding its lower part. */
+.shell-content { overflow-y: auto; overflow-x: hidden; overscroll-behavior-y: contain; }
+/* A screen's root never clips vertically (several used overflow:hidden), so anything that does
+   not fit is reachable through the page scroll above. */
+.shell-content > * { overflow-y: visible !important; overflow-x: clip !important; }
+/* System Overview: the right-hand column (allocation, next steps, request use) scrolls itself. */
+.terminal-detail { overflow-y: auto; }
+/* Data Explorer: panels scroll instead of clipping their action rows, and the field filter bar
+   keeps its full height instead of being squeezed (and clipped) by the list below it. */
+.data-page .dx-panel { overflow-y: auto; overflow-x: hidden; }
+.data-page .dx-field-filterbar { flex: none; overflow: visible; }
+/* The field filters wrap to the panel's width instead of six fixed columns that overflowed
+   (and hid "Alpha max") whenever the panel was narrower than ~700px. */
+.data-page .dx-field-filterbar { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important; }
+/* Research Footprint: the "no evidence" note used the ranked-row grid and wrapped one word per line. */
+.rank-list > .empty { display: block; }
+
+/* ── 2. touch tablets ──────────────────────────────────────────────────────────── */
+html.touch-ui { -webkit-tap-highlight-color: transparent; }
+html.touch-ui body { touch-action: manipulation; overscroll-behavior: none; }
+
+/* Every screen keeps a usable working height; shorter screens scroll the page a little. */
+.touch-ui .shell-content > * { min-height: 540px; }
+.touch-ui .shell-content { padding: 8px 12px; scroll-padding-block: 12px; }
+.touch-ui .shell-foot { display: none; }
+
+/* Frosted-glass blur is costly to repaint on tablet GPUs and makes scrolling stutter. */
+.touch-ui *, .touch-ui *::before, .touch-ui *::after { -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
+.touch-ui .sidebar { background: var(--bg-2); }
+.touch-ui .shell-main { background: var(--bg); }
+/* Entrance animation on every screen change is skipped: it re-composites whole pages. */
+.touch-ui .shell-content > * > * { animation: none !important; }
+
+/* Finger-sized controls (layout px; the page is scaled ~0.9–1.0 to the screen). */
+.touch-ui .btn { min-height: 36px; padding: 8px 14px; }
+.touch-ui .btn.sm { min-height: 32px; padding: 6px 12px; font-size: 12.5px; }
+.touch-ui .shell input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+.touch-ui .shell select { min-height: 36px; font-size: 14px; }
+.touch-ui .shell textarea { font-size: 14px; }
+.touch-ui input[type="checkbox"], .touch-ui input[type="radio"] { width: 18px; height: 18px; }
+.touch-ui .nav-link { min-height: 40px; }
+.touch-ui .nav-link svg { opacity: 1; }
+.touch-ui .icon-btn, .touch-ui .sidebar-toggle { min-width: 36px; min-height: 36px; }
+.touch-ui .pill { min-height: 30px; display: inline-flex; align-items: center; }
+.touch-ui .text-action { min-height: 30px; padding: 4px 6px; }
+.touch-ui label.fld > span { font-size: 11.5px; }
+/* Copy buttons only appeared on mouse hover — always show them on touch. */
+.touch-ui .alpha-copy { opacity: 1; width: 28px; height: 28px; }
+
+/* Pressed feedback replaces hover. */
+.touch-ui button:active:not(:disabled), .touch-ui .btn:active, .touch-ui .nav-link:active { filter: brightness(1.18); }
+.touch-ui .terminal-table-row:active, .touch-ui .action-ledger button:active,
+.touch-ui .market-list button:active { background: var(--faint); }
+
+/* Long-pressing navigation or buttons should not start a text selection. Content (expressions,
+   descriptions, ids) stays selectable. */
+.touch-ui .sidebar, .touch-ui .header, .touch-ui button, .touch-ui .nav-link, .touch-ui .btn {
+  -webkit-user-select: none; user-select: none;
+}
+
+/* Inner lists scroll first; at their end the gesture continues on the page (native feel). */
+
+/* ── navigation drawer (touch screens narrower than ~1320 layout px) ──────────── */
+.touch-ui .shell { position: relative; }
+.touch-ui .shell:has(.sidebar.drawer) { grid-template-columns: 54px minmax(0, 1fr); }
+.sidebar.drawer { z-index: 10002; }
+.sidebar.drawer.open {
+  position: absolute; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+  box-shadow: 16px 0 48px #000b; border-right: 1px solid var(--acc-line, var(--line));
+  animation: drawer-in .16s ease-out;
+}
+.sidebar-scrim { position: absolute; inset: 0; z-index: 10001; background: #0009; animation: fadein .16s ease; }
+@keyframes drawer-in { from { transform: translateX(-24px); opacity: .6; } }
+.touch-ui .sidebar.drawer.collapsed .nav-link { min-height: 42px; }
+
+/* ── per-screen minimums on short tablet screens ──────────────────────────────── */
+/* Data Explorer: the dataset and field lists always keep room for several rows; the page
+   scrolls a little instead of squeezing them to a single line. */
+/* Only two scroll levels on touch — the lists and the page — never a scrolling panel between. */
+.touch-ui .data-page > .dx-split { min-height: 560px; grid-auto-rows: auto; }
+.touch-ui .data-page .dx-panel { overflow: visible; }
+.touch-ui .data-page .dx-panel > .panel-scroll { min-height: 230px; max-height: 440px; }
+
+/* Selectable list rows (Data Explorer): the whole row is the tap target. */
+.tap-row { cursor: pointer; }
+.tap-row.on > td { background: color-mix(in srgb, var(--acc) 7%, transparent); }
+.touch-ui .tap-row:active > td { background: var(--faint); }
+.touch-ui .tap-row input[type="checkbox"] { width: 22px; height: 22px; }
+
+/* Header chips, segmented tabs and small toolbar buttons: at least 32px tall on touch. */
+.touch-ui .header .ctx-chip { min-height: 34px; }
+.touch-ui .header .transfer-chip button { min-height: 32px; min-width: 32px; }
+.touch-ui .shell-content button:not(.terminal-table-row):not(.alpha-copy):not(.tap-row) { min-height: 32px; }
+/* …and the market selectors / next-step bar above them never shrink to make room. */
+.touch-ui .data-page > *:not(.dx-split) { flex-shrink: 0; }
+
+/* Short status words and universe names in table cells don't break mid-word
+   ("ACTIV/E", "MINVOL1/M"); long expressions and ids still wrap. */
+.shell-content td > b, .shell-content td > small { word-break: keep-all; overflow-wrap: normal; }
+
+/* Micro-labels that rendered below ~9.5px on a tablet: lift them to a readable size. */
+.touch-ui .eyebrow { font-size: 10px; }
+.touch-ui .cat-tag { font-size: 10px; }
+.touch-ui .operators-page span.mut[style*="uppercase"] { font-size: 10.5px !important; }
+.touch-ui .terminal-kpis small, .touch-ui .terminal-kpis span, .touch-ui .research-funnel small,
+.touch-ui .ops-row small, .touch-ui .allocation-bars span, .touch-ui .allocation-bars strong,
+.touch-ui .request-ledger span, .touch-ui .terminal-section-head span { font-size: 10.5px; }
+.touch-ui .ra-head span { font-size: 10px; }
+.touch-ui .footprint-row-actions button { font-size: 11px; }
+.touch-ui .footprint-strip span, .touch-ui .catalog-cell small { font-size: 10px; }

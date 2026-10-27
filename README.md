@@ -50,7 +50,7 @@ tablet.
 | BRAIN biometrics | Opens a browser tab | Opens a Chrome Custom Tab; return to the app and tap Finish login |
 | Exports / backups | Browser download | Saved to `Downloads/HypoLab` |
 | Updates | Signed in-place `.exe` swap | Newer APK from GitHub Releases, installed over the old one |
-| Layout | Fits 1240×720 | Same layout, auto-fitted to the tablet, landscape, full-screen. **Settings → Appearance → Interface scale** to enlarge |
+| Layout | Fits 1240×720 | Tablet layout: ~1100px canvas scaled to the screen, landscape, full-screen; anything taller scrolls; finger-sized controls; navigation drawer (tap ☰/›). **Settings → Appearance → Interface scale** to enlarge |
 | Background work | Runs while the terminal is open | Foreground service; a wake lock is held only while jobs run; **Quit HypoLab** from the notification |
 | Library versions | pandas 3 / numpy 2 | pandas 2.1.3 / numpy 1.26.2 (latest Android builds). The backend test suite passes on both |
 

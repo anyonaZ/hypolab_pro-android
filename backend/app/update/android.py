@@ -80,7 +80,7 @@ def check() -> dict:
         return {**base, "error": f"Could not check for updates (HTTP {e.code})."}
     except Exception as e:  # noqa: BLE001
         return {**base, "error": f"Could not check for updates: {str(e).splitlines()[0][:160]}"}
-    latest = str(rel.get("tag_name") or rel.get("name") or "").strip()
+    latest = str(rel.get("tag_name") or rel.get("name") or "").strip().lstrip("vV")
     return {**base, "latest": latest, "available": _ver_tuple(latest) > _ver_tuple(cur),
             "url": _apk_url(rel), "notes": (rel.get("body") or "")[:1000]}
 

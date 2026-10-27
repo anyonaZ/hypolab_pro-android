@@ -9,6 +9,8 @@
 
 export interface HypoLabAndroidBridge {
   appInfo(): string;
+  /** The WebView's size in density-independent pixels: {"w":…, "h":…}. */
+  viewportDp?(): string;
   openExternal(url: string): void;
   download(url: string, filename: string): void;
   saveBase64(filename: string, mime: string, base64: string): void;
@@ -36,6 +38,25 @@ export function androidInfo(): AndroidInfo | null {
   const b = androidBridge();
   if (!b) return null;
   try { return JSON.parse(b.appInfo()) as AndroidInfo; } catch { return null; }
+}
+
+/** The app's drawing area in dp (Android only), independent of the page's own viewport. */
+export function androidViewportDp(): { w: number; h: number } | null {
+  const b = androidBridge();
+  if (!b?.viewportDp) return null;
+  try {
+    const v = JSON.parse(b.viewportDp());
+    return v && v.w > 0 && v.h > 0 ? { w: Number(v.w), h: Number(v.h) } : null;
+  } catch { return null; }
+}
+
+/** Touch-first device (the Android app, or a tablet browser). Enables the tablet layout. */
+export function isTouchUi(): boolean {
+  return isAndroidApp() || (typeof window !== "undefined" && !!window.matchMedia?.("(pointer: coarse)").matches);
+}
+
+export function installTouchMode() {
+  if (isTouchUi()) document.documentElement.classList.add("touch-ui");
 }
 
 /** Open a URL outside the app (browser) when running on Android; otherwise a new tab. */

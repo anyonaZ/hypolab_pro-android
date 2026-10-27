@@ -29,6 +29,13 @@ class WebBridge(private val activity: MainActivity) {
         put("batteryUnrestricted", batteryUnrestricted())
     }.toString()
 
+    /** The WebView's drawing area in dp; the page scales its layout canvas to this. */
+    @JavascriptInterface
+    fun viewportDp(): String {
+        val (w, h) = activity.webViewSizeDp()
+        return JSONObject().put("w", w).put("h", h).toString()
+    }
+
     @JavascriptInterface
     fun openExternal(url: String) {
         if (!allowed()) return

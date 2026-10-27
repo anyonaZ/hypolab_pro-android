@@ -30,6 +30,8 @@ export function HeaderJobs() {
   const seeded = useRef(false);
   const wrap = useRef<HTMLDivElement | null>(null);
   const userClosed = useRef(false);   // once the user closes it, stay closed until jobs go idle
+  const lastSig = useRef("");
+  const busy = useRef(false);
 
   useEffect(() => {
     let alive = true;
@@ -51,13 +53,22 @@ export function HeaderJobs() {
       }
       prev.current = Object.fromEntries(list.map((j) => [j.id, j.status]));
       seeded.current = true;
-      setJobs(list);
+      // Re-render only when something changed (this runs every few seconds on every screen).
+      const sig = JSON.stringify(list);
+      if (sig !== lastSig.current) { lastSig.current = sig; setJobs(list); }
+      busy.current = list.some((j) => j.status === "running");
     };
-    const wake=()=>tick();
-    window.addEventListener("ace-job-started",wake);
-    tick();
-    const t = window.setInterval(tick, 2000);
-    return () => { alive = false; window.clearInterval(t); window.removeEventListener("ace-job-started",wake); };
+    // Poll every 2s while work is running, every 10s when idle, and not at all while the app
+    // is in the background (saves battery and keeps scrolling smooth on tablets).
+    let timer = 0;
+    const schedule = () => { window.clearTimeout(timer); timer = window.setTimeout(loop, busy.current ? 2000 : 10000); };
+    const loop = async () => { if (!document.hidden) await tick(); if (alive) schedule(); };
+    const wake = () => { void loop(); };
+    const visible = () => { if (!document.hidden) wake(); };
+    window.addEventListener("ace-job-started", wake);
+    document.addEventListener("visibilitychange", visible);
+    void loop();
+    return () => { alive = false; window.clearTimeout(timer); window.removeEventListener("ace-job-started", wake); document.removeEventListener("visibilitychange", visible); };
   }, []);
 
   const runningCount = jobs.filter((j) => j.status === "running").length;

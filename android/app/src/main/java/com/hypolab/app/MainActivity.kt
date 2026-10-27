@@ -65,6 +65,19 @@ class MainActivity : AppCompatActivity() {
 
     private val stateListener: (BackendRuntime.State) -> Unit = { render(it) }
 
+    @Volatile private var webWidthPx = 0
+    @Volatile private var webHeightPx = 0
+
+    /** WebView size in dp (read by [WebBridge.viewportDp] to size the page's layout canvas). */
+    fun webViewSizeDp(): Pair<Int, Int> {
+        val density = resources.displayMetrics.density
+        return if (webWidthPx > 0 && webHeightPx > 0) {
+            Math.round(webWidthPx / density) to Math.round(webHeightPx / density)
+        } else {
+            resources.configuration.screenWidthDp to resources.configuration.screenHeightDp
+        }
+    }
+
     private val fileChooser = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
         fileCallback?.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(res.resultCode, res.data))
         fileCallback = null
@@ -179,8 +192,21 @@ class MainActivity : AppCompatActivity() {
             javaScriptCanOpenWindowsAutomatically = false
             setSupportMultipleWindows(false)
             userAgentString = "$userAgentString HypoLabAndroid/${BuildConfig.VERSION_NAME}"
+            // Rasterise just-offscreen content ahead of time so fast flings never show blank tiles.
+            offscreenPreRaster = true
         }
+        // Keep the page renderer alive and prioritised while HypoLab is briefly in the background
+        // (e.g. BRAIN biometrics in the browser), so returning to the app is instant.
+        web.setRendererPriorityPolicy(WebView.RENDERER_PRIORITY_IMPORTANT, false)
         web.addJavascriptInterface(WebBridge(this), "HypoLabAndroid")
+        web.addOnLayoutChangeListener { _, left, top, right, bottom, _, _, _, _ ->
+            val widthChanged = webWidthPx != 0 && webWidthPx != right - left
+            webWidthPx = right - left
+            webHeightPx = bottom - top
+            // The page fixes its layout width, so a rotation or split-screen resize may not reach it
+            // as a resize event on its own; tell it to re-fit. (Keyboard height changes are ignored.)
+            if (widthChanged && uiShown) web.evaluateJavascript("window.dispatchEvent(new Event('resize'))", null)
+        }
 
         web.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {

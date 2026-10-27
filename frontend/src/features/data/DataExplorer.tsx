@@ -28,6 +28,15 @@ function fieldNature(f: any): string {
 }
 function fieldModeEstimate(fields:any[]):number { return Math.max(4,new Set(fields.map(fieldNature)).size*6); }
 
+// Tapping anywhere on a dataset/field row toggles it (easier than the small checkbox on a
+// tablet). Taps on the row's own controls and links keep their normal behaviour.
+function rowTap(e: { target: EventTarget | null }, toggle: () => void) {
+  const el = e.target as HTMLElement | null;
+  if (el?.closest("input, button, a, select, textarea, label")) return;
+  if (window.getSelection()?.toString()) return;   // don't toggle while selecting text
+  toggle();
+}
+
 export function DataExplorer() {
   const R = useResearch();
   const nav = useNavigate();
@@ -303,7 +312,7 @@ export function DataExplorer() {
             {!R.datasets.length ? <div className="empty">This context has not been synchronized. Open Data Catalog to fetch it from BRAIN once.</div> :
               <table><thead><tr><th></th><th>dataset</th><th>value</th><th>alphas</th></tr></thead>
                 <tbody>{shownDatasets.map((d) => (
-                  <tr key={d.id}>
+                  <tr key={d.id} className={"tap-row" + (R.selDatasets.includes(d.id) ? " on" : "")} onClick={(e) => rowTap(e, () => toggleDs(d.id))}>
                     <td><input type="checkbox" checked={R.selDatasets.includes(d.id)} onChange={() => toggleDs(d.id)} /></td>
                     <td title={d.description || d.name || d.id}><code>{d.id}</code>
                       {catOf(d) ? <span className="cat-tag" title="category">{catOf(d)}</span> : null}
@@ -349,7 +358,7 @@ export function DataExplorer() {
                 <table><thead><tr><th></th><th>field</th><th>type / unit</th><th>history / quality</th><th>alphas</th></tr></thead>
                   <tbody>{shownFields.map((f) => {
                     const t = String(f.type).toUpperCase();
-                    return <tr key={f.id}>
+                    return <tr key={f.id} className={"tap-row" + (R.selFields.includes(f.id) ? " on" : "")} onClick={(e) => rowTap(e, () => toggleField(f.id))}>
                       <td><input type="checkbox" checked={R.selFields.includes(f.id)} onChange={() => toggleField(f.id)} /></td>
                       <td title={f.description || f.id}><code>{f.id}</code><div className="mut sub">{(f.description || "").slice(0, 50)}</div></td>
                       <td><span className={"badge " + (t === "VECTOR" ? "vec" : "mat")}>{t}</span>
