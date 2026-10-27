@@ -1,0 +1,34 @@
+Android wheels (arm64_v8a): completed / success
+     1 Set up job: success
+     2 Run actions/checkout@v4: success
+     3 Restore wheel cache: success
+     4 Run actions/setup-python@v5: success
+     5 Install Rust Android targets: success
+     6 Download sources: success
+     7 Build wheels: success
+     8 Run actions/upload-artifact@v4: success
+    14 Post Run actions/setup-python@v5: success
+    15 Post Restore wheel cache: success
+    16 Post Run actions/checkout@v4: success
+    17 Complete job: success
+Android wheels (x86_64): completed / success
+     1 Set up job: success
+     2 Run actions/checkout@v4: success
+     3 Restore wheel cache: success
+     4 Run actions/setup-python@v5: success
+     5 Install Rust Android targets: success
+     6 Download sources: success
+     7 Build wheels: success
+     8 Run actions/upload-artifact@v4: success
+    14 Post Run actions/setup-python@v5: success
+    15 Post Restore wheel cache: success
+    16 Post Run actions/checkout@v4: success
+    17 Complete job: success
+Probe Chaquopy package index: completed / success
+     1 Set up job: success
+     2 Run for p in numpy pandas cryptography cffi; do: success
+     3 Complete job: success
+Publish CI logs: in_progress / None
+     1 Set up job: success
+     2 Collect logs: None
+     3 Push to ci-logs branch: None
