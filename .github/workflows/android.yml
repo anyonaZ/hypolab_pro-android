@@ -3,6 +3,7 @@ name: HypoLab Android build
 on:
   push:
     branches: [main]
+    paths-ignore: ["**.md", "docs/**"]
   workflow_dispatch:
 
 permissions:
@@ -14,15 +15,14 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  PYTHON_VERSION: "3.13"
   PYDANTIC_CORE_VERSION: "2.46.5"
   JITER_VERSION: "0.17.0"
   CIBUILDWHEEL_VERSION: "4.3.4"
 
 jobs:
   # ---------------------------------------------------------------------------
-  # Native Python packages that have no Android wheels on PyPI or in Chaquopy's
-  # repository. Built with cibuildwheel's Android support (CPython 3.13).
+  # Native Python packages without Android wheels on PyPI or in Chaquopy's
+  # repository, built with cibuildwheel's Android support (CPython 3.13).
   # ---------------------------------------------------------------------------
   wheels:
     name: Android wheels (${{ matrix.arch }})
@@ -44,7 +44,7 @@ jobs:
       - uses: actions/setup-python@v5
         if: steps.cache.outputs.cache-hit != 'true'
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: "3.13"
 
       - name: Install Rust Android targets
         if: steps.cache.outputs.cache-hit != 'true'
@@ -57,7 +57,6 @@ jobs:
           mkdir -p sdists
           python -m pip download --no-binary=:all: --no-deps --dest sdists \
             "pydantic-core==${PYDANTIC_CORE_VERSION}" "jiter==${JITER_VERSION}"
-          ls -la sdists
 
       - name: Build wheels
         if: steps.cache.outputs.cache-hit != 'true'
@@ -66,42 +65,201 @@ jobs:
           CIBW_BUILD: cp313-*
           CIBW_ARCHS_ANDROID: ${{ matrix.arch }}
           CIBW_TEST_SKIP: "*"
-          CIBW_BUILD_VERBOSITY: 1
         run: |
           set -eux
           for sdist in sdists/*.tar.gz; do
             python -m cibuildwheel --output-dir wheelhouse "$sdist"
           done
-          ls -la wheelhouse
 
+      - run: ls -la wheelhouse
       - uses: actions/upload-artifact@v4
         with:
           name: wheels-${{ matrix.arch }}
           path: wheelhouse/*.whl
 
-  probe:
-    name: Probe Chaquopy package index
+  # ---------------------------------------------------------------------------
+  # Backend regression tests with the same library versions the APK ships
+  # (pandas 2.1.3 / numpy 1.26.2 have no CPython 3.13 Linux wheels, so 3.12).
+  # ---------------------------------------------------------------------------
+  backend-tests:
+    name: Backend tests
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          mkdir -p probe
-          for p in numpy pandas cryptography cffi; do
-            echo "=== $p"
-            curl -sSL "https://chaquo.com/pypi-13.1/$p/" | grep -oE '[A-Za-z0-9_.-]+\.whl' | sort -u | grep -E "cp31[234]" || echo "(no cp312-314 wheels)"
-          done | tee probe/chaquopy-index.txt
-      - uses: actions/upload-artifact@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          name: report-probe
-          path: probe/
+          python-version: "3.12"
+      - name: Install
+        run: |
+          grep -vE '^\s*(#|$)' android/app/requirements-android.txt > /tmp/req.txt
+          python -m pip install -r /tmp/req.txt pytest httpx
+      - name: Test
+        run: |
+          mkdir -p reports
+          cd backend
+          python -m pytest tests -q -rs -p no:cacheprovider 2>&1 | tee ../reports/backend-tests.txt
+          exit ${PIPESTATUS[0]}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-backend-tests
+          path: reports/
 
   # ---------------------------------------------------------------------------
-  # Publish this run's job logs to the `ci-logs` branch so they can be read
-  # without access to the Actions UI.
+  # Web UI + APKs (arm64 for the Galaxy Tab A9, x86_64 for the emulator test)
+  # ---------------------------------------------------------------------------
+  apk:
+    name: Build APK
+    needs: [wheels]
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.ver.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: ver
+        run: echo "version=1.0.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Build web UI
+        working-directory: frontend
+        run: |
+          npm ci --no-audit --no-fund
+          npm run build
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: actions/setup-python@v5
+        id: py
+        with:
+          python-version: "3.13"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          path: android/wheels
+          merge-multiple: true
+
+      - name: Build release APKs
+        working-directory: android
+        env:
+          HYPOLAB_BUILD_PYTHON: ${{ steps.py.outputs.python-path }}
+        run: |
+          set -o pipefail
+          mkdir -p ../dist ../reports
+          ls -la wheels
+          ./gradlew --no-daemon --stacktrace assembleRelease \
+            -PhypolabBuild=${{ github.run_number }} -PhypolabAbis=arm64-v8a 2>&1 | tee ../reports/gradle-arm64.txt
+          cp app/build/outputs/apk/release/app-release.apk "../dist/HypoLab-${{ steps.ver.outputs.version }}-arm64.apk"
+          ./gradlew --no-daemon --stacktrace assembleRelease \
+            -PhypolabBuild=${{ github.run_number }} -PhypolabAbis=x86_64 2>&1 | tee ../reports/gradle-x86_64.txt
+          cp app/build/outputs/apk/release/app-release.apk "../dist/HypoLab-${{ steps.ver.outputs.version }}-x86_64-emulator.apk"
+          ls -la ../dist | tee ../reports/apks.txt
+
+      - name: Trim build logs
+        if: always()
+        run: |
+          mkdir -p reports
+          for f in reports/gradle-*.txt; do [ -f "$f" ] && tail -n 1500 "$f" > "$f.tmp" && mv "$f.tmp" "$f"; done; true
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-arm64
+          path: dist/*-arm64.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-x86_64
+          path: dist/*-x86_64-emulator.apk
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-apk
+          path: reports/
+
+  # ---------------------------------------------------------------------------
+  # Boot the app on an Android 16 emulator and check the engine + UI come up.
+  # ---------------------------------------------------------------------------
+  emulator:
+    name: Emulator smoke test (Android 16)
+    needs: [apk]
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: apk-x86_64
+          path: apk
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - name: Run smoke test
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 36
+          target: google_apis
+          arch: x86_64
+          profile: pixel_tablet
+          ram-size: 4096M
+          disk-size: 6000M
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
+          disable-animations: true
+          script: bash .github/scripts/emulator-smoke.sh "$(ls apk/*.apk | head -n1)" reports/emulator
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: report-emulator
+          path: reports/
+
+  # ---------------------------------------------------------------------------
+  # Publish the tablet APK as a GitHub Release.
+  # ---------------------------------------------------------------------------
+  release:
+    name: Publish release
+    needs: [apk, emulator, backend-tests]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: apk-arm64
+          path: dist
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.apk.outputs.version }}
+        run: |
+          set -eu
+          cat > notes.md <<EOF
+          HypoLab ${VERSION} for Android (arm64 — Samsung Galaxy Tab A9 and other 64-bit ARM devices, Android 8+).
+
+          Install: download **HypoLab-${VERSION}-arm64.apk** on the tablet, open it, and allow installs from your browser/files app if asked.
+          Updating: install the new APK over the old one; your data is kept.
+
+          Built from ${GITHUB_SHA}. Boot-tested on an Android 16 emulator.
+          EOF
+          gh release create "v${VERSION}" dist/*.apk --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" --title "HypoLab ${VERSION}" --notes-file notes.md --latest
+
+  # ---------------------------------------------------------------------------
+  # Publish this run's logs and reports to the `ci-logs` branch.
   # ---------------------------------------------------------------------------
   logs:
     name: Publish CI logs
     if: always()
-    needs: [wheels, probe]
+    needs: [wheels, backend-tests, apk, emulator, release]
     runs-on: ubuntu-latest
     steps:
       - name: Download reports
@@ -110,9 +268,8 @@ jobs:
         with:
           pattern: report-*
           path: out/reports
-          merge-multiple: false
 
-      - name: Collect logs
+      - name: Collect job logs
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -138,9 +295,8 @@ jobs:
             safe=$(echo "$name" | tr -c 'A-Za-z0-9._-' '_')
             curl -sSL -H "Authorization: Bearer $GH_TOKEN" -H "Accept: application/vnd.github+json" \
               "https://api.github.com/repos/$REPO/actions/jobs/$id/logs" -o "out/${safe}.log" || true
-            # keep the committed logs small: drop timestamps, keep the tail
             if [ -s "out/${safe}.log" ]; then
-              cut -c30- "out/${safe}.log" | tail -n 4000 > "out/${safe}.tmp" && mv "out/${safe}.tmp" "out/${safe}.log"
+              cut -c30- "out/${safe}.log" | tail -n 2500 > "out/${safe}.tmp" && mv "out/${safe}.tmp" "out/${safe}.log"
             fi
           done < out/ids.txt
           cat out/summary.txt
@@ -152,12 +308,13 @@ jobs:
           set -eu
           git config --global user.name "hypolab-ci"
           git config --global user.email "hypolab-ci@users.noreply.github.com"
-          git clone --depth 1 --branch ci-logs "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git" logs \
-            || { git init logs && git -C logs checkout -b ci-logs && git -C logs remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"; }
+          url="https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          git clone --depth 1 --branch ci-logs "$url" logs \
+            || { git init logs && git -C logs checkout -b ci-logs && git -C logs remote add origin "$url"; }
           rm -rf logs/latest && mkdir -p logs/latest
           cp -r out/. logs/latest/
-          echo "${{ github.sha }} run ${{ github.run_id }} attempt ${{ github.run_attempt }}" > logs/latest/RUN.txt
+          echo "${{ github.sha }} run ${{ github.run_id }} #${{ github.run_number }} attempt ${{ github.run_attempt }}" > logs/latest/RUN.txt
           cd logs
           git add -A
-          git commit -m "CI logs for ${{ github.sha }} (run ${{ github.run_id }})" || true
+          git commit -m "CI logs for ${{ github.sha }} (run #${{ github.run_number }})" || true
           git push origin ci-logs

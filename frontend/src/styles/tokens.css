@@ -1,0 +1,123 @@
+/* HypoLab design tokens (inherited from ACE Studio) — "terminal-corporate".
+   A deep graphite terminal ground with a warm amber signal accent and a monospace data face,
+   balanced by a clean corporate light theme. Both themes are first-class; dark is the default. */
+
+:root {
+  /* brand / signal accent (amber — reads as a terminal phosphor and keeps the orange lineage) */
+  --acc:        #f7a23a;   /* primary amber */
+  --acc-2:      #ffc074;   /* lifted highlight */
+  --acc-weak:   #f7a23a22; /* tint fill */
+  --acc-line:   #f7a23a55; /* tint border */
+  --acc-fg:     #17120a;   /* ink on an amber fill (dark in BOTH themes — corporate, legible) */
+
+  /* dark terminal surfaces (default) */
+  --bg:         #0b0f15;
+  --bg-2:       #070a0f;
+  --bg-glow:    #14202f;   /* the faint corner glow behind the shell (theme-aware) */
+  --surface:    #10151d;
+  --surface-2:  #161d27;
+  --faint:      #ffffff09;
+  --line:       #ffffff16;
+  --line-2:     #ffffff2a;  /* a firmer hairline for grids/dividers */
+
+  /* text */
+  --fg:         #dbe3ee;
+  --mut:        #808d9f;
+  --mut-2:      #5d6878;    /* dimmest label / placeholder */
+
+  /* semantic (terminal-ish but restrained) */
+  --ok:         #46c07a;
+  --warn:       #e6b23e;
+  --bad:        #f0616d;
+  --ok-weak:    #46c07a1e;
+  --warn-weak:  #e6b23e1e;
+  --bad-weak:   #f0616d1e;
+
+  /* type */
+  --mono: ui-monospace, "JetBrains Mono", "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* shape & motion */
+  --radius:     11px;
+  --radius-sm:  8px;
+  --radius-xs:  6px;
+  --shadow:     0 8px 24px #00000055;
+  --shadow-sm:  0 2px 8px #0000003a;
+  --ring:       0 0 0 2px var(--acc-weak);
+  --tap:        150ms cubic-bezier(.2,.7,.3,1);
+
+  /* the shell geometry (drives the no-scroll layout) */
+  --sidebar-w:  228px;
+  --header-h:   52px;
+
+  /* user-adjustable scale, set by the auto-scale hook */
+  --ui-scale:   1;
+
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  --acc:        #e07f1e;   /* a touch deeper so amber reads on white */
+  --acc-2:      #f3982f;
+  --acc-weak:   #e07f1e1c;
+  --acc-line:   #e07f1e55;
+  --acc-fg:     #fffaf3;   /* near-white ink on the deeper amber fill */
+
+  --bg:         #f2f0eb;
+  --bg-2:       #e8e5de;
+  --bg-glow:    #faf8f3;
+  --surface:    #f8f7f3;
+  --surface-2:  #eceae4;
+  --faint:      #0b1a2e08;
+  --line:       #0b1a2e1a;
+  --line-2:     #0b1a2e2e;
+
+  --fg:         #16202e;
+  --mut:        #586576;
+  --mut-2:      #8593a3;
+
+  --ok-weak:    #2f9e5f1e;
+  --warn-weak:  #b986241e;
+  --bad-weak:   #d24a561e;
+  --ok:         #2f9e5f;
+  --warn:       #b98624;
+  --bad:        #d24a56;
+
+  --shadow:     0 8px 24px #16202e1f;
+  --shadow-sm:  0 2px 8px #16202e14;
+
+  color-scheme: light;
+}
+
+:root[data-theme="light-cool"] {
+  --acc:#276da8;--acc-2:#3c84bf;--acc-weak:#276da818;--acc-line:#276da84d;--acc-fg:#fff;
+  --bg:#edf3f7;--bg-2:#e1eaf0;--bg-glow:#f8fbfd;--surface:#f7fafc;--surface-2:#eaf1f5;
+  --faint:#12344d08;--line:#12344d18;--line-2:#12344d2d;--fg:#152735;--mut:#5c7180;--mut-2:#899ba7;
+  --ok:#24815a;--warn:#9b6b13;--bad:#c44450;--ok-weak:#24815a18;--warn-weak:#9b6b1318;--bad-weak:#c4445018;
+  --shadow:0 8px 24px #18364a18;--shadow-sm:0 2px 8px #18364a12;color-scheme:light;
+}
+:root[data-theme="light-soft"] {
+  --acc:#537a5b;--acc-2:#699472;--acc-weak:#537a5b1b;--acc-line:#537a5b50;--acc-fg:#fff;
+  --bg:#eef1e9;--bg-2:#e3e8dc;--bg-glow:#fafbf7;--surface:#f7f8f3;--surface-2:#e9ede4;
+  --faint:#24372a08;--line:#24372a18;--line-2:#24372a2d;--fg:#1e2c22;--mut:#607065;--mut-2:#8b998f;
+  --ok:#357b52;--warn:#967020;--bad:#b94c57;--ok-weak:#357b5218;--warn-weak:#96702018;--bad-weak:#b94c5718;
+  --shadow:0 8px 24px #23352718;--shadow-sm:0 2px 8px #23352712;color-scheme:light;
+}
+:root[data-theme="aurora-light"] {
+  --acc:#5b55b8;--acc-2:#716bd0;--acc-weak:#5b55b818;--acc-line:#5b55b84a;--acc-fg:#fff;
+  --bg:#f3f5f5;--bg-2:#e9eeee;--bg-glow:#fff;--surface:#fbfcfbd9;--surface-2:#eff3f2df;
+  --faint:#263b3b08;--line:#263b3b18;--line-2:#263b3b2d;--fg:#202d32;--mut:#63747a;--mut-2:#8b999e;
+  color-scheme:light;
+}
+
+:root[data-theme="pixel"],
+:root[data-theme="particles"],
+:root[data-theme="threads"] {
+  --bg: #080b10;
+  --bg-2: #05070be8;
+  --bg-glow: #141a23;
+  --surface: #0e131bdc;
+  --surface-2: #151c26e8;
+  color-scheme: dark;
+}
+:root[data-theme="aurora"] {--bg:#070a10;--bg-2:#05070be8;--bg-glow:#111a25;--surface:#0e131bdc;--surface-2:#151c26e8;color-scheme:dark}

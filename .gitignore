@@ -1,0 +1,30 @@
+# Build outputs
+frontend/node_modules/
+frontend/dist/
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/wheels/
+android/.idea/
+*.iml
+dist/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+
+# Personal research state — never commit (see docs/ANDROID.md)
+data/
+*.db
+*.db-wal
+*.db-shm
+session.pkl
+ace.log
+update_token.txt
+support_token.txt
+secrets/
+
+.DS_Store

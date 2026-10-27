@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hl_bg">#070B09</color>
+    <color name="hl_surface">#0D1612</color>
+    <color name="hl_green">#2FE38A</color>
+    <color name="hl_green_dim">#178F57</color>
+    <color name="hl_text">#E3F2EA</color>
+    <color name="hl_muted">#8BA697</color>
+    <color name="hl_bad">#FF6B6B</color>
+    <color name="ic_launcher_background">#06120C</color>
+</resources>

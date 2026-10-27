@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HypoLab</string>
+    <string name="tagline">Alpha research lab for WorldQuant BRAIN</string>
+    <string name="engine_starting">Starting the research engine…</string>
+    <string name="engine_first_run">First launch prepares Python and your workspace. This takes a little longer once.</string>
+    <string name="engine_failed">The research engine could not start.</string>
+    <string name="restart">Restart HypoLab</string>
+    <string name="copy_details">Copy details</string>
+    <string name="channel_engine">Research engine</string>
+    <string name="channel_engine_desc">Keeps HypoLab running while simulations and syncs are in progress.</string>
+    <string name="notif_ready">Engine ready</string>
+    <string name="notif_jobs">%1$d background job(s) running</string>
+    <string name="notif_quit">Quit HypoLab</string>
+    <string name="saved_to_downloads">Saved to Downloads/HypoLab/%1$s</string>
+    <string name="download_failed">Download failed: %1$s</string>
+    <string name="copied">Copied</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="battery_title">Keep simulations running?</string>
+    <string name="battery_message">Samsung tablets may pause apps in the background. Allow HypoLab to run unrestricted so long BRAIN simulations and data syncs are not interrupted when the screen is off or you switch apps.</string>
+    <string name="battery_allow">Allow</string>
+    <string name="battery_later">Not now</string>
+</resources>

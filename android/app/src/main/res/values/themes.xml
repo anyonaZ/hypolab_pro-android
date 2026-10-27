@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.HypoLab" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@color/hl_bg</item>
+        <item name="android:statusBarColor">@color/hl_bg</item>
+        <item name="android:navigationBarColor">@color/hl_bg</item>
+        <item name="colorPrimary">@color/hl_green</item>
+        <item name="colorAccent">@color/hl_green</item>
+        <item name="android:textColorPrimary">@color/hl_text</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+</resources>

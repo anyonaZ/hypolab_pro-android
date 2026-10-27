@@ -1,0 +1,1 @@
+"""Local account research ledger."""

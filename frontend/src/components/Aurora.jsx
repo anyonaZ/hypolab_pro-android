@@ -1,0 +1,16 @@
+import { Renderer, Program, Mesh, Color, Triangle } from 'ogl';
+import { useEffect, useRef } from 'react';
+import './Aurora.css';
+
+const VERT=`#version 300 es
+in vec2 position; void main(){gl_Position=vec4(position,0.0,1.0);}`;
+const FRAG=`#version 300 es
+precision highp float;
+uniform float uTime,uAmplitude,uBlend,uLightMode; uniform vec3 uColorStops[3]; uniform vec2 uResolution; out vec4 fragColor;
+vec3 permute(vec3 x){return mod(((x*34.0)+1.0)*x,289.0);} float snoise(vec2 v){const vec4 C=vec4(.2113248654,.3660254038,-.5773502692,.0243902439);vec2 i=floor(v+dot(v,C.yy));vec2 x0=v-i+dot(i,C.xx);vec2 i1=(x0.x>x0.y)?vec2(1.,0.):vec2(0.,1.);vec4 x12=x0.xyxy+C.xxzz;x12.xy-=i1;i=mod(i,289.);vec3 p=permute(permute(i.y+vec3(0.,i1.y,1.))+i.x+vec3(0.,i1.x,1.));vec3 m=max(.5-vec3(dot(x0,x0),dot(x12.xy,x12.xy),dot(x12.zw,x12.zw)),0.);m=m*m;m=m*m;vec3 x=2.*fract(p*C.www)-1.;vec3 h=abs(x)-.5;vec3 ox=floor(x+.5);vec3 a0=x-ox;m*=1.7928429-.8537347*(a0*a0+h*h);vec3 g;g.x=a0.x*x0.x+h.x*x0.y;g.yz=a0.yz*x12.xz+h.yz*x12.yw;return 130.*dot(m,g);}
+void main(){vec2 uv=gl_FragCoord.xy/uResolution;float f=clamp(uv.x*2.,0.,1.999);int i=int(f);vec3 ramp=mix(uColorStops[i],uColorStops[i+1],fract(f));float h=exp(snoise(vec2(uv.x*2.+uTime*.1,uTime*.25))*.5*uAmplitude);float intensity=.6*(uv.y*2.-h+.2);float a=smoothstep(.2-uBlend*.5,.2+uBlend*.5,intensity);if(uLightMode>.5){float e=clamp(max(intensity,0.),0.,1.);float c=clamp(a*(.55+.45*e),0.,.78);fragColor=vec4(mix(vec3(1.),normalize(max(ramp,vec3(.001))),c*.62),1.);}else fragColor=vec4(intensity*ramp*a,a);}`;
+export default function Aurora({colorStops=['#5227FF','#7cff67','#5227FF'],amplitude=1,blend=.5,speed=.5,lightMode=false}){
+ const ref=useRef(null),props=useRef({colorStops,amplitude,blend,speed,lightMode});props.current={colorStops,amplitude,blend,speed,lightMode};
+ useEffect(()=>{const c=ref.current;if(!c)return;const renderer=new Renderer({alpha:true,premultipliedAlpha:true,antialias:true,dpr:Math.min(devicePixelRatio||1,1.5)}),gl=renderer.gl;gl.clearColor(0,0,0,0);const geometry=new Triangle(gl);if(geometry.attributes.uv)delete geometry.attributes.uv;const colors=()=>props.current.colorStops.map(x=>{const q=new Color(x);return[q.r,q.g,q.b]});const program=new Program(gl,{vertex:VERT,fragment:FRAG,uniforms:{uTime:{value:0},uAmplitude:{value:amplitude},uColorStops:{value:colors()},uResolution:{value:[1,1]},uBlend:{value:blend},uLightMode:{value:lightMode?1:0}}});const mesh=new Mesh(gl,{geometry,program});c.appendChild(gl.canvas);const resize=()=>{renderer.setSize(c.clientWidth,c.clientHeight);program.uniforms.uResolution.value=[gl.canvas.width,gl.canvas.height]};const ro=new ResizeObserver(resize);ro.observe(c);let frame=0;const tick=t=>{frame=requestAnimationFrame(tick);if(document.hidden)return;const p=props.current;program.uniforms.uTime.value=t*.0001*p.speed;program.uniforms.uAmplitude.value=p.amplitude;program.uniforms.uBlend.value=p.blend;program.uniforms.uLightMode.value=p.lightMode?1:0;program.uniforms.uColorStops.value=colors();renderer.render({scene:mesh})};resize();frame=requestAnimationFrame(tick);return()=>{cancelAnimationFrame(frame);ro.disconnect();if(c.contains(gl.canvas))c.removeChild(gl.canvas);gl.getExtension('WEBGL_lose_context')?.loseContext()}},[]);
+ return <div ref={ref} className="aurora-container"/>;
+}
