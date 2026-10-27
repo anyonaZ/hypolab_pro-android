@@ -1,3 +1,3 @@
-122377038708	Android wheels (arm64_v8a)
-122377039002	Android wheels (x86_64)
-122377039401	Probe Chaquopy package index
+122390811059	Android wheels (x86_64)
+122390811437	Android wheels (arm64_v8a)
+122390811654	Probe Chaquopy package index

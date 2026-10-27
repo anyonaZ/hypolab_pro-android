@@ -1,0 +1,185 @@
+ Current runner version: '2.338.0'
+##[group]Runner Image Provisioner
+Hosted Compute Agent
+Version: 20261021.618
+Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Build Date: 2026-10-21T00:45:21Z
+Worker ID: {e1d3a1d6-6394-49f0-a0c8-168946c9f769}
+Region: westcentralus
+Cloud: Azure
+##[endgroup]
+##[group]Operating System
+Ubuntu
+26.04.1
+LTS
+##[endgroup]
+##[group]Runner Image
+Image: ubuntu-26.04
+Version: 20261012.163.1
+Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261012.163/images/ubuntu/Ubuntu2604-Readme.md
+Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261012.163
+##[endgroup]
+##[group]GITHUB_TOKEN Permissions
+Actions: read
+Contents: write
+Metadata: read
+##[endgroup]
+Secret source: Actions
+Cache mode: write
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Download action repository 'actions/cache@v4' (SHA:0057852bfaa89a56745cba8c7296529d2fc39830)
+Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Complete job name: Android wheels (x86_64)
+##[group]Run actions/checkout@v4
+with:
+  repository: anyonaZ/hypolab_pro-android
+  token: ***
+  ssh-strict: true
+  ssh-user: git
+  persist-credentials: true
+  clean: true
+  sparse-checkout-cone-mode: true
+  fetch-depth: 1
+  fetch-tags: false
+  show-progress: true
+  lfs: false
+  submodules: false
+  set-safe-directory: true
+  allow-unsafe-pr-checkout: false
+env:
+  PYTHON_VERSION: 3.13
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+Syncing repository: anyonaZ/hypolab_pro-android
+##[group]Getting Git version info
+Working directory is '/home/runner/work/hypolab_pro-android/hypolab_pro-android'
+[command]/usr/bin/git version
+git version 2.55.0
+##[endgroup]
+Temporarily overriding HOME='/home/runner/work/_temp/872c20c1-bbf9-4120-87c2-f6fce678b170' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/hypolab_pro-android/hypolab_pro-android
+Deleting the contents of '/home/runner/work/hypolab_pro-android/hypolab_pro-android'
+##[group]Initializing the repository
+[command]/usr/bin/git init /home/runner/work/hypolab_pro-android/hypolab_pro-android
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /home/runner/work/hypolab_pro-android/hypolab_pro-android/.git/
+[command]/usr/bin/git remote add origin https://github.com/anyonaZ/hypolab_pro-android
+##[endgroup]
+##[group]Disabling automatic garbage collection
+[command]/usr/bin/git config --local gc.auto 0
+##[endgroup]
+##[group]Setting up auth
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+[command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+##[endgroup]
+##[group]Fetching the repository
+[command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4ce517a6ab84a528ddb83e6c65aaab344b620b56:refs/remotes/origin/main
+From https://github.com/anyonaZ/hypolab_pro-android
+ * [new ref]         4ce517a6ab84a528ddb83e6c65aaab344b620b56 -> origin/main
+##[endgroup]
+##[group]Determining the checkout info
+##[endgroup]
+[command]/usr/bin/git sparse-checkout disable
+[command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+##[group]Checking out the ref
+[command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Switched to a new branch 'main'
+branch 'main' set up to track 'origin/main'.
+##[endgroup]
+[command]/usr/bin/git log -1 --format=%H
+4ce517a6ab84a528ddb83e6c65aaab344b620b56
+##[group]Run actions/cache@v4
+with:
+  path: wheelhouse
+  key: wheels-x86_64-cp313-pc2.46.5-j0.17.0-cibw4.3.4-v1
+  enableCrossOsArchive: false
+  fail-on-cache-miss: false
+  lookup-only: false
+  save-always: false
+env:
+  PYTHON_VERSION: 3.13
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+(node:2228) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Cache hit for: wheels-x86_64-cp313-pc2.46.5-j0.17.0-cibw4.3.4-v1
+(node:2228) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Received 2373497 of 2373497 (100.0%), 5.5 MBs/sec
+Cache Size: ~2 MB (2373497 B)
+[command]/usr/bin/tar -xf /home/runner/work/_temp/4e88fc46-e124-4848-90df-9b375054d70b/cache.tzst -P -C /home/runner/work/hypolab_pro-android/hypolab_pro-android --use-compress-program unzstd
+Cache restored successfully
+Cache restored from key: wheels-x86_64-cp313-pc2.46.5-j0.17.0-cibw4.3.4-v1
+##[group]Run actions/upload-artifact@v4
+with:
+  name: wheels-x86_64
+  path: wheelhouse/*.whl
+  if-no-files-found: warn
+  compression-level: 6
+  overwrite: false
+  include-hidden-files: false
+env:
+  PYTHON_VERSION: 3.13
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+(node:2245) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+With the provided path, there will be 2 files uploaded
+Artifact name is valid!
+Root directory input is valid!
+Beginning upload of artifact content to blob storage
+(node:2245) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+Uploaded bytes 2364164
+Finished uploading artifact content to blob storage!
+SHA256 digest of uploaded artifact zip is 124e2d75d2c886cbcff493f96b001240065ef940a45c4f6412117397f7c59177
+Finalizing artifact upload
+Artifact wheels-x86_64.zip successfully finalized. Artifact ID 12761010808
+Artifact wheels-x86_64 has been successfully uploaded! Final size is 2364164 bytes. Artifact ID is 12761010808
+Artifact download URL: https://github.com/anyonaZ/hypolab_pro-android/actions/runs/40561322002/artifacts/12761010808
+Post job cleanup.
+Cache hit occurred on the primary key wheels-x86_64-cp313-pc2.46.5-j0.17.0-cibw4.3.4-v1, not saving cache.
+(node:2259) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Post job cleanup.
+[command]/usr/bin/git version
+git version 2.55.0
+Temporarily overriding HOME='/home/runner/work/_temp/ac246380-5f49-4dd5-8618-e1c8e1b41030' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/hypolab_pro-android/hypolab_pro-android
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+[command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Cleaning up orphan processes
+##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/cache@v4, actions/checkout@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
