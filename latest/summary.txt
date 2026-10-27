@@ -1,15 +1,13 @@
-Android wheels (x86_64): completed / success
+Backend tests: completed / success
      1 Set up job: success
      2 Run actions/checkout@v4: success
-     3 Restore wheel cache: success
-     4 Run actions/setup-python@v5: skipped
-     5 Install Rust Android targets: skipped
-     6 Download sources: skipped
-     7 Build wheels: skipped
-     8 Run actions/upload-artifact@v4: success
-    15 Post Restore wheel cache: success
-    16 Post Run actions/checkout@v4: success
-    17 Complete job: success
+     3 Run actions/setup-python@v5: success
+     4 Install: success
+     5 Test: success
+     6 Run actions/upload-artifact@v4: success
+    11 Post Run actions/setup-python@v5: success
+    12 Post Run actions/checkout@v4: success
+    13 Complete job: success
 Android wheels (arm64_v8a): completed / success
      1 Set up job: success
      2 Run actions/checkout@v4: success
@@ -18,17 +16,46 @@ Android wheels (arm64_v8a): completed / success
      5 Install Rust Android targets: skipped
      6 Download sources: skipped
      7 Build wheels: skipped
-     8 Run actions/upload-artifact@v4: success
-    15 Post Restore wheel cache: success
-    16 Post Run actions/checkout@v4: success
-    17 Complete job: success
-Probe Chaquopy package index: completed / success
+     8 Run ls -la wheelhouse: success
+     9 Run actions/upload-artifact@v4: success
+    17 Post Restore wheel cache: success
+    18 Post Run actions/checkout@v4: success
+    19 Complete job: success
+Android wheels (x86_64): completed / success
      1 Set up job: success
-     2 Run mkdir -p probe: success
-     3 Run actions/upload-artifact@v4: success
-     4 Complete job: success
+     2 Run actions/checkout@v4: success
+     3 Restore wheel cache: success
+     4 Run actions/setup-python@v5: skipped
+     5 Install Rust Android targets: skipped
+     6 Download sources: skipped
+     7 Build wheels: skipped
+     8 Run ls -la wheelhouse: success
+     9 Run actions/upload-artifact@v4: success
+    17 Post Restore wheel cache: success
+    18 Post Run actions/checkout@v4: success
+    19 Complete job: success
+Build APK: completed / failure
+     1 Set up job: success
+     2 Run actions/checkout@v4: success
+     3 Run echo "version=1.0.3" >> "$GITHUB_OUTPUT": success
+     4 Run actions/setup-node@v4: success
+     5 Build web UI: failure
+     6 Run actions/setup-java@v4: skipped
+     7 Run actions/setup-python@v5: skipped
+     8 Run gradle/actions/setup-gradle@v4: skipped
+     9 Run actions/download-artifact@v4: skipped
+    10 Build release APKs: skipped
+    11 Trim build logs: success
+    12 Run actions/upload-artifact@v4: skipped
+    13 Run actions/upload-artifact@v4: skipped
+    14 Run actions/upload-artifact@v4: success
+    27 Post Run actions/setup-node@v4: skipped
+    28 Post Run actions/checkout@v4: success
+    29 Complete job: success
+Emulator smoke test (Android 16): completed / skipped
 Publish CI logs: in_progress / None
      1 Set up job: success
      2 Download reports: success
-     3 Collect logs: None
+     3 Collect job logs: None
      4 Push to ci-logs branch: None
+Publish release: completed / skipped

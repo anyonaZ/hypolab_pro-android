@@ -1,0 +1,208 @@
+ Current runner version: '2.338.0'
+##[group]Runner Image Provisioner
+Hosted Compute Agent
+Version: 20261021.618
+Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+Build Date: 2026-10-21T00:45:21Z
+Worker ID: {337cb5c1-e105-44cc-a3bb-32922405a536}
+Region: eastus
+Cloud: Azure
+##[endgroup]
+##[group]Operating System
+Ubuntu
+26.04.1
+LTS
+##[endgroup]
+##[group]Runner Image
+Image: ubuntu-26.04
+Version: 20261012.163.1
+Included Software: https://github.com/actions/runner-images/blob/ubuntu26/20261012.163/images/ubuntu/Ubuntu2604-Readme.md
+Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu26%2F20261012.163
+##[endgroup]
+##[group]GITHUB_TOKEN Permissions
+Actions: read
+Contents: write
+Metadata: read
+##[endgroup]
+Secret source: Actions
+Cache mode: write
+Prepare workflow directory
+Prepare all required actions
+Getting action download info
+Download action repository 'actions/checkout@v4' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+Download action repository 'actions/setup-node@v4' (SHA:49933ea5288caeca8642d1e84afbd3f7d6820020)
+Download action repository 'actions/setup-java@v4' (SHA:cf277c60eb25467037889841efdb72551f06f6c3)
+Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+Download action repository 'gradle/actions@v4' (SHA:ed408507eac070d1f99cc633dbcf757c94c7933a)
+Download action repository 'actions/download-artifact@v4' (SHA:d3f86a106a0bac45b974a628896c90dbdf5c8093)
+Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+Complete job name: Build APK
+##[group]Run actions/checkout@v4
+with:
+  repository: anyonaZ/hypolab_pro-android
+  token: ***
+  ssh-strict: true
+  ssh-user: git
+  persist-credentials: true
+  clean: true
+  sparse-checkout-cone-mode: true
+  fetch-depth: 1
+  fetch-tags: false
+  show-progress: true
+  lfs: false
+  submodules: false
+  set-safe-directory: true
+  allow-unsafe-pr-checkout: false
+env:
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+Syncing repository: anyonaZ/hypolab_pro-android
+##[group]Getting Git version info
+Working directory is '/home/runner/work/hypolab_pro-android/hypolab_pro-android'
+[command]/usr/bin/git version
+git version 2.55.0
+##[endgroup]
+Temporarily overriding HOME='/home/runner/work/_temp/4fa9b485-1cb4-4900-9509-f45e2f771cab' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/hypolab_pro-android/hypolab_pro-android
+Deleting the contents of '/home/runner/work/hypolab_pro-android/hypolab_pro-android'
+##[group]Initializing the repository
+[command]/usr/bin/git init /home/runner/work/hypolab_pro-android/hypolab_pro-android
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+Initialized empty Git repository in /home/runner/work/hypolab_pro-android/hypolab_pro-android/.git/
+[command]/usr/bin/git remote add origin https://github.com/anyonaZ/hypolab_pro-android
+##[endgroup]
+##[group]Disabling automatic garbage collection
+[command]/usr/bin/git config --local gc.auto 0
+##[endgroup]
+##[group]Setting up auth
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+[command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+##[endgroup]
+##[group]Fetching the repository
+[command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4e195351476fbb0e79f2232b215df50734f3e457:refs/remotes/origin/main
+From https://github.com/anyonaZ/hypolab_pro-android
+ * [new ref]         4e195351476fbb0e79f2232b215df50734f3e457 -> origin/main
+##[endgroup]
+##[group]Determining the checkout info
+##[endgroup]
+[command]/usr/bin/git sparse-checkout disable
+[command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+##[group]Checking out the ref
+[command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Switched to a new branch 'main'
+branch 'main' set up to track 'origin/main'.
+##[endgroup]
+[command]/usr/bin/git log -1 --format=%H
+4e195351476fbb0e79f2232b215df50734f3e457
+##[group]Run echo "version=1.0.3" >> "$GITHUB_OUTPUT"
+[36;1mecho "version=1.0.3" >> "$GITHUB_OUTPUT"[0m
+shell: /usr/bin/bash -e {0}
+env:
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+##[group]Run actions/setup-node@v4
+with:
+  node-version: 22
+  cache: npm
+  cache-dependency-path: frontend/package-lock.json
+  always-auth: false
+  check-latest: false
+  token: ***
+env:
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+Found in cache @ /opt/hostedtoolcache/node/22.23.3/x64
+(node:2059) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+##[group]Environment details
+node: v22.23.3
+npm: 10.9.9
+yarn: 1.22.22
+##[endgroup]
+[command]/opt/hostedtoolcache/node/22.23.3/x64/bin/npm config get cache
+/home/runner/.npm
+npm cache is not found
+##[group]Run npm ci --no-audit --no-fund
+[36;1mnpm ci --no-audit --no-fund[0m
+[36;1mnpm run build[0m
+shell: /usr/bin/bash -e {0}
+env:
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+
+added 81 packages in 3s
+
+> hypolab-frontend@1.0.0 build
+> tsc -b && vite build
+
+##[error]src/app/App.tsx(20,30): error TS2307: Cannot find module '../features/data/DataExplorer' or its corresponding type declarations.
+##[error]Process completed with exit code 1.
+##[group]Run mkdir -p reports
+[36;1mmkdir -p reports[0m
+[36;1mfor f in reports/gradle-*.txt; do [ -f "$f" ] && tail -n 1500 "$f" > "$f.tmp" && mv "$f.tmp" "$f"; done; true[0m
+shell: /usr/bin/bash -e {0}
+env:
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+##[group]Run actions/upload-artifact@v4
+with:
+  name: report-apk
+  path: reports/
+  if-no-files-found: warn
+  compression-level: 6
+  overwrite: false
+  include-hidden-files: false
+env:
+  PYDANTIC_CORE_VERSION: 2.46.5
+  JITER_VERSION: 0.17.0
+  CIBUILDWHEEL_VERSION: 4.3.4
+##[endgroup]
+(node:2153) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+##[warning]No files were found with the provided path: reports/. No artifacts will be uploaded.
+Post job cleanup.
+[command]/usr/bin/git version
+git version 2.55.0
+Temporarily overriding HOME='/home/runner/work/_temp/7fe6cb9c-409c-4485-93dc-257eb14c72b4' before making global git config changes
+Adding repository directory to the temporary git global config as a safe directory
+[command]/usr/bin/git config --global --add safe.directory /home/runner/work/hypolab_pro-android/hypolab_pro-android
+[command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+http.https://github.com/.extraheader
+[command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+[command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+[command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+[command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Evaluate and set job outputs
+Set output 'version'
+Cleaning up orphan processes
+##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
